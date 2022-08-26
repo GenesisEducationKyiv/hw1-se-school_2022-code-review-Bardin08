@@ -27,7 +27,17 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.CR_PAT }}
 
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+
+    - name: Generate build number
+      uses: einaregilsson/build-number@v3
+      with:
+        token: ${{secrets.github_token}}
+
     - name: Build Docker Image
       run: |
-        docker build . --tag ghcr.io/bardin08/genesis-case-task:latest
-        docker push ghcr.io/bardin08/genesis-case-task:latest
+        docker build . --tag ghcr.io/bardin08/genesis-case-task-${{steps.extract_branch.outputs.branch}}:${{BUILD_NUMBER}}
+        docker push ghcr.io/bardin08/genesis-case-task-${{steps.extract_branch.outputs.branch}}:${{BUILD_NUMBER}}
