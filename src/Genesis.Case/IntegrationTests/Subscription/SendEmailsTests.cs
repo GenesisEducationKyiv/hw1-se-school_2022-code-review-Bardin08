@@ -13,6 +13,7 @@ using Xunit;
 
 namespace IntegrationTests.Subscription;
 
+[Collection("Subscription")]
 public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
@@ -20,15 +21,7 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
     
     public SendEmailsTests(CustomWebApplicationFactory<Program> factory)
     {
-        factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureTestServices(services =>
-            {
-                services.AddScoped<IJsonEmailsStorage, JsonEmailsStorage>();
-            });
-        });
-        
-        _httpClient = factory.CreateClient();
+        _httpClient = factory.CreateDefaultClient();
 
         var scope = factory.Services.CreateScope();
         _emailsStorage = scope.ServiceProvider.GetService<IJsonEmailsStorage>()!;
@@ -44,10 +37,10 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
             Failed = new List<string>()
         };
         
-        const string emailTemplate = "integration-tests{0}@gmail.com";
-        var email = string.Format(emailTemplate, Guid.NewGuid());
+        const string emailTemplate = "integration-tests_{0}@gmail.com";
+        var subscriber = string.Format(emailTemplate, Guid.NewGuid());
 
-        await _emailsStorage.CreateAsync(email);
+        await _emailsStorage.CreateAsync(subscriber);
 
         var response = await _httpClient.PostAsync("/sendEmails", new StringContent(""));
         response.EnsureSuccessStatusCode();

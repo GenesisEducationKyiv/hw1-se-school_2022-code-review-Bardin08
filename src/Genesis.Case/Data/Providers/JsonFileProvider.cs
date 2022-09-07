@@ -8,6 +8,8 @@ namespace Data.Providers;
 
 public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, TEntity>
 {
+    private const int RetryCount = 5;
+    private const int RetryDelayMilliseconds = 300;
     private const string DataFolder = "__data";
     private readonly string _dataFilePath;
 
@@ -96,10 +98,9 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
         }
 
         // FileStream can be closed not immediately, so we need to try several times
-        
         await Policy
             .Handle<IOException>()
-            .WaitAndRetryAsync(5, _ => TimeSpan.FromMilliseconds(300))
+            .WaitAndRetryAsync(RetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMilliseconds))
             .ExecuteAsync(async () =>
             {
                 var json = JsonConvert.SerializeObject(entities);
