@@ -10,17 +10,20 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegrationTests.Subscription;
 
 [Collection("Subscription")]
 public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     private readonly HttpClient _httpClient;
     private readonly IJsonEmailsStorage _emailsStorage;
     
-    public SendEmailsTests(CustomWebApplicationFactory<Program> factory)
+    public SendEmailsTests(CustomWebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>
@@ -58,6 +61,11 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(expectedResponse.TotalSubscribers, responseModel.TotalSubscribers);
+        if (expectedResponse.SuccessfullyNotified != responseModel.SuccessfullyNotified)
+        {
+            _testOutputHelper.WriteLine($"Send emails failed for the following subscribers: {responseString}");
+        }
+
         Assert.Equal(expectedResponse.SuccessfullyNotified, responseModel.SuccessfullyNotified);
         Assert.Equal(expectedResponse.Failed, responseModel.Failed);
     }
