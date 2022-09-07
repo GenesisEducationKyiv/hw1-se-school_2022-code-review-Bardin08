@@ -2,6 +2,7 @@
 using Data.Abstractions;
 using Data.Exceptions;
 using Newtonsoft.Json;
+using Polly;
 
 namespace Data.Providers;
 
@@ -94,7 +95,15 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
             File.Create(_dataFilePath).Close();
         }
 
-        var json = JsonConvert.SerializeObject(entities);
-        await File.WriteAllTextAsync(_dataFilePath, json, Encoding.UTF8);
+        // FileStream can be closed not immediately, so we need to try several times
+        
+        await Policy
+            .Handle<IOException>()
+            .WaitAndRetryAsync(5, _ => TimeSpan.FromMilliseconds(300))
+            .ExecuteAsync(async () =>
+            {
+                var json = JsonConvert.SerializeObject(entities);
+                await File.WriteAllTextAsync(_dataFilePath, json, Encoding.UTF8);
+            });
     }
 }
