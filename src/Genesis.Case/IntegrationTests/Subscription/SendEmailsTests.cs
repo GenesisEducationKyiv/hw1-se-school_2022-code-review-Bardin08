@@ -25,7 +25,7 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
         {
             builder.ConfigureTestServices(services =>
             {
-                services.AddScoped<IJsonEmailsStorage, JsonEmailsStorage>();
+                services.AddScoped<IJsonEmailsStorage>(_ => new JsonEmailsStorage($"emails_{Guid.NewGuid():N}"));
             });
         });
         
@@ -47,14 +47,6 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
         
         const string emailTemplate = "integration-tests{0}@gmail.com";
         var subscriber = string.Format(emailTemplate, Guid.NewGuid());
-
-        // ensure that email storage is empty
-        var allEmails = await _emailsStorage.ReadAllAsync(0, 0);
-
-        foreach (var email in allEmails)
-        {
-            await _emailsStorage.DeleteAsync(email);            
-        }
 
         await _emailsStorage.CreateAsync(subscriber);
 
