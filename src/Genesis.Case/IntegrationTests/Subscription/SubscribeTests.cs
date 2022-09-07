@@ -10,6 +10,7 @@ using Xunit;
 
 namespace IntegrationTests.Subscription;
 
+[Collection("Subscription")]
 public class SubscribeTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;

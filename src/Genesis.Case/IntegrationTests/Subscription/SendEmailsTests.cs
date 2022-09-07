@@ -13,6 +13,7 @@ using Xunit;
 
 namespace IntegrationTests.Subscription;
 
+[Collection("Subscription")]
 public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
