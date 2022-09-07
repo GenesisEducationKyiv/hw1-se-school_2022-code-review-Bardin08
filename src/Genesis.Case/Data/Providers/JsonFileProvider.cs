@@ -96,7 +96,6 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
         }
 
         // FileStream can be closed not immediately, so we need to try several times
-        
         await Policy
             .Handle<IOException>()
             .WaitAndRetryAsync(5, _ => TimeSpan.FromMilliseconds(300))

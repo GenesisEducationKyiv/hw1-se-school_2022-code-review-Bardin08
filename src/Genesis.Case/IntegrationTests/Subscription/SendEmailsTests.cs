@@ -45,9 +45,17 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
         };
         
         const string emailTemplate = "integration-tests{0}@gmail.com";
-        var email = string.Format(emailTemplate, Guid.NewGuid());
+        var subscriber = string.Format(emailTemplate, Guid.NewGuid());
 
-        await _emailsStorage.CreateAsync(email);
+        // ensure that email storage is empty
+        var allEmails = await _emailsStorage.ReadAllAsync(0, 0);
+
+        foreach (var email in allEmails)
+        {
+            await _emailsStorage.DeleteAsync(email);            
+        }
+
+        await _emailsStorage.CreateAsync(subscriber);
 
         var response = await _httpClient.PostAsync("/sendEmails", new StringContent(""));
         response.EnsureSuccessStatusCode();
