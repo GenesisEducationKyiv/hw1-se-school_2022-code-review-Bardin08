@@ -1,3 +1,4 @@
+using Api.Models.Responses;
 using Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,13 @@ public class SubscriptionController : ControllerBase
     public async Task<IActionResult> Notify()
     {
         var result = await _subscriptionService.NotifyAsync();
-        return Ok(result);
+        var response = new SendEmailsResponse
+        {
+            TotalSubscribers = result.TotalSubscribers,
+            SuccessfullyNotified = result.SuccessfullyNotified,
+            Failed = result.Failed
+        };
+
+        return Ok(response);
     }
 }

@@ -2,11 +2,14 @@
 using Data.Abstractions;
 using Data.Exceptions;
 using Newtonsoft.Json;
+using Polly;
 
 namespace Data.Providers;
 
 public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, TEntity>
 {
+    private const int RetryCount = 5;
+    private const int RetryDelayMilliseconds = 300;
     private const string DataFolder = "__data";
     private readonly string _dataFilePath;
 
@@ -94,7 +97,14 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
             File.Create(_dataFilePath).Close();
         }
 
-        var json = JsonConvert.SerializeObject(entities);
-        await File.WriteAllTextAsync(_dataFilePath, json, Encoding.UTF8);
+        // FileStream can be closed not immediately, so we need to try several times
+        await Policy
+            .Handle<IOException>()
+            .WaitAndRetryAsync(RetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMilliseconds))
+            .ExecuteAsync(async () =>
+            {
+                var json = JsonConvert.SerializeObject(entities);
+                await File.WriteAllTextAsync(_dataFilePath, json, Encoding.UTF8);
+            });
     }
 }
