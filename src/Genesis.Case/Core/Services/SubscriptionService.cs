@@ -25,7 +25,6 @@ public class SubscriptionService : ISubscriptionService
             return false;
         }
 
-        // We can't use ReadAsync here, because a model that we store doesn't contains an ID.
         var isAlreadyExists = (await _emailsStorage.ReadAsync(email)) != null;
 
         if (isAlreadyExists)

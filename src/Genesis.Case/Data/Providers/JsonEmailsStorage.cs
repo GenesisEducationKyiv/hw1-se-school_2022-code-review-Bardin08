@@ -21,6 +21,15 @@ public class JsonEmailsStorage : JsonFileProvider<string, string>, IJsonEmailsSt
     {
     }
 
+    /// <summary>
+    /// Returns first email from the list, that is similar to the given email.
+    /// </summary>
+    /// <param name="email"> Email that we are searching at the storage. </param>
+    /// <remarks>
+    /// This method brakes the LSP, because emails storage is build like a list of string, without an ID for each email.
+    /// And that's why we can't use the base interface of this method from <see cref="IDataProvider{TKey,TEntity}.ReadAsync"/>.
+    /// </remarks>
+    /// <returns> Email from the file storage </returns>
     public new async Task<string?> ReadAsync(string email)
     {
         var allEmails = await ReadAllAsync();
