@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Core.APIs;
-using Core.Models;
+using Core.APIs.Crypto.Models;
+using Core.APIs.Crypto.Models.Responses;
 using Core.Services;
 using Moq;
 using Newtonsoft.Json.Linq;

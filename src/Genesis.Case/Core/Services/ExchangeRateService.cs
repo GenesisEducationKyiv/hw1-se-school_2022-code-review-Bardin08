@@ -1,6 +1,6 @@
 using Core.Abstractions;
 using Core.APIs;
-using Core.Models;
+using Core.APIs.Crypto.Models;
 
 namespace Core.Services;
 

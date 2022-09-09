@@ -1,4 +1,4 @@
-using Core.Models;
+using Core.Models.Notifications.Emails;
 
 namespace Core.Abstractions;
 

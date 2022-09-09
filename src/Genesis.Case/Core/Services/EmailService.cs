@@ -1,5 +1,5 @@
 using Core.Abstractions;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;

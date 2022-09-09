@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Abstractions;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using Core.Services;
 using Data.Providers;
 using Moq;

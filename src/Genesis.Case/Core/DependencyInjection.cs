@@ -1,6 +1,6 @@
 using Core.Abstractions;
 using Core.APIs;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using Core.Services;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;

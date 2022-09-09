@@ -4,7 +4,7 @@ using Api.Controllers;
 using Api.Mappings;
 using AutoMapper;
 using Core.Abstractions;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

@@ -1,4 +1,4 @@
-namespace Core.Abstractions;
+namespace Core.Models.Notifications.Emails;
 
 public class EmailNotification
 {
