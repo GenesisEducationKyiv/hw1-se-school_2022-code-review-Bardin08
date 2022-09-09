@@ -13,7 +13,7 @@ public class ExchangeRateService : IExchangeRateService
         _coinbaseApi = coinbaseApi;
     }
 
-    public async Task<decimal> GetCurrentBtcToUahExchangeRateAsync()
+    public async Task<decimal> GetBtcToUahExchangeRateAsync()
     {
         var exchangeRate = await _coinbaseApi.GetExchangeRateAsync(Currency.Btc);
         var uahCurrencyCode = Currency.Uah.ToString().ToUpper();

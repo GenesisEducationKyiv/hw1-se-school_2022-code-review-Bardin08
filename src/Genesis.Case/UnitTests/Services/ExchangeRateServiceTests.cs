@@ -33,7 +33,7 @@ public class ExchangeRateServiceTests
             .ReturnsAsync(coinBaseResponse);
 
         // Act
-        var exchangeRate = await _sut.GetCurrentBtcToUahExchangeRateAsync();
+        var exchangeRate = await _sut.GetBtcToUahExchangeRateAsync();
 
         // Assert
         Assert.Equal(expectedValue, exchangeRate);
@@ -47,6 +47,6 @@ public class ExchangeRateServiceTests
             .ReturnsAsync((CoinbaseRatesResponse?)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NullReferenceException>(async () => await _sut.GetCurrentBtcToUahExchangeRateAsync());
+        await Assert.ThrowsAsync<NullReferenceException>(async () => await _sut.GetBtcToUahExchangeRateAsync());
     }
 }

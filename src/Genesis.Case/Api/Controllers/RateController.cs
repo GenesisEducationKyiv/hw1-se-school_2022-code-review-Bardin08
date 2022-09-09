@@ -32,7 +32,7 @@ public class RateController : ControllerBase
     {
         try
         {
-            return await _exchangeRateService.GetCurrentBtcToUahExchangeRateAsync();
+            return await _exchangeRateService.GetBtcToUahExchangeRateAsync();
         }
         catch
         {

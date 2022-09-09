@@ -42,7 +42,7 @@ public class SubscriptionService : ISubscriptionService
         var emailAddresses = (await _emailsStorage.ReadAllAsync()).ToList();
         result.TotalSubscribers = emailAddresses.Count;
 
-        var currentExchangeRate = await _exchangeRateService.GetCurrentBtcToUahExchangeRateAsync();
+        var currentExchangeRate = await _exchangeRateService.GetBtcToUahExchangeRateAsync();
 
         var notifications = emailAddresses.Select(email => new EmailNotification()
         {

@@ -80,7 +80,7 @@ public class SubscriptionServiceTests
         // Arrange
         _jsonEmailsStorageMock.Setup(x => x.ReadAllAsync(It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(subscribedEmails);
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync()).ReturnsAsync(1);
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
         _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
             .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
                 .Select(n => new SendEmailResult
@@ -108,7 +108,7 @@ public class SubscriptionServiceTests
         // Arrange
         _jsonEmailsStorageMock.Setup(x => x.ReadAllAsync(It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(subscribedEmails);
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync()).ReturnsAsync(1);
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
         _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
             .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
                 .Select(n => new SendEmailResult
