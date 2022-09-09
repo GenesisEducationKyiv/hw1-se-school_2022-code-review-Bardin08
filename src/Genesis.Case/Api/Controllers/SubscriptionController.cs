@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+/// <summary>
+/// This is a controller to work with subscriptions and notifications.
+/// </summary>
 [ApiController]
 public class SubscriptionController : ControllerBase
 {

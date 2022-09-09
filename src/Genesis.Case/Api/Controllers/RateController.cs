@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+/// <summary>
+/// This is a controller that is used to manually receive an exchange rate for BTC to UAH currencies.
+/// </summary>
 [ApiController]
 [Route("rate")]
 public class RateController : ControllerBase
