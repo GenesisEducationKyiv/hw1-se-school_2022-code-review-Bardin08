@@ -44,12 +44,15 @@ public class SubscriptionService : ISubscriptionService
 
         var currentExchangeRate = await _exchangeRateService.GetCurrentBtcToUahExchangeRateAsync();
 
-        var tasks = emailAddresses
-            .Select(address => _emailService.SendEmailAsync(address, "Current Exchange Rate",
-                $"Hello, {address}!\n\nWe have a new BTC to UAH exchange rate for you! It is {currentExchangeRate} now!"))
-            .ToList();
+        var notifications = emailAddresses.Select(email => new EmailNotification()
+        {
+            To = email,
+            Subject = "BTC to UAH exchange rate",
+            Message = $"Hello, {email}!\n\nWe have a new BTC to UAH exchange rate for you! It is {currentExchangeRate} now!"
+        }).ToList();
 
-        var results = await Task.WhenAll(tasks);
+        var results = await _emailService.SendEmailsAsync(notifications);
+
         result.SuccessfullyNotified = results.Count(x => x.IsSuccessful);
         result.Failed = results.Where(x => !x.IsSuccessful)
             .Select(x => new FailedEmailNotificationSummary()

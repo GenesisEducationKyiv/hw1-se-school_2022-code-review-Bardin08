@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Api;
 using Api.Models.Responses;
 using Data.Providers;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;

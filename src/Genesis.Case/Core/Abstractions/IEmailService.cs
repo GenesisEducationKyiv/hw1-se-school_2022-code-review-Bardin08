@@ -4,5 +4,5 @@ namespace Core.Abstractions;
 
 public interface IEmailService
 {
-    Task<SendEmailResult> SendEmailAsync(string email, string subject, string message);
+    Task<List<SendEmailResult>> SendEmailsAsync(IEnumerable<EmailNotification> notifications);
 }
