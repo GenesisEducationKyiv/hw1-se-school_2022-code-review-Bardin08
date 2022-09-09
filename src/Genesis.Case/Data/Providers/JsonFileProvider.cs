@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Data.Abstractions;
 using Data.Exceptions;
+using Data.Models;
 using Newtonsoft.Json;
 using Polly;
 
@@ -11,9 +12,32 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
     private const int RetryCount = 5;
     private const int RetryDelayMilliseconds = 300;
     private const string DataFolder = "__data";
-    private readonly string _dataFilePath;
 
-    public JsonFileProvider(string fileName)
+    private string _dataFilePath = null!;
+    private readonly int _ioRetryCount;
+    private readonly int _ioRetryDelayMilliseconds;
+
+    protected JsonFileProvider(
+        string fileName,
+        int ioRetryCount = RetryCount,
+        int ioRetryDelayMilliseconds = RetryDelayMilliseconds)
+    {
+        GetStorageFilePath(fileName);
+        _ioRetryCount = ioRetryCount;
+        _ioRetryDelayMilliseconds = ioRetryDelayMilliseconds;
+    }
+
+    protected JsonFileProvider(Action<FileStorageConfiguration> configFactory)
+    {
+        var config = new FileStorageConfiguration();
+        configFactory(config);
+        
+        GetStorageFilePath(config.Filename);
+        _ioRetryCount = config.IoRetryCount;
+        _ioRetryDelayMilliseconds = config.IoRetryDelayMilliseconds;
+    }
+
+    private void GetStorageFilePath(string fileName)
     {
         string dataFilesDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), DataFolder);
         if (!Directory.Exists(dataFilesDirectoryPath))
@@ -100,7 +124,7 @@ public abstract class JsonFileProvider<TKey, TEntity> : IJsonFileProvider<TKey, 
         // FileStream can be closed not immediately, so we need to try several times
         await Policy
             .Handle<IOException>()
-            .WaitAndRetryAsync(RetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMilliseconds))
+            .WaitAndRetryAsync(_ioRetryCount, _ => TimeSpan.FromMilliseconds(_ioRetryDelayMilliseconds))
             .ExecuteAsync(async () =>
             {
                 var json = JsonConvert.SerializeObject(entities);
