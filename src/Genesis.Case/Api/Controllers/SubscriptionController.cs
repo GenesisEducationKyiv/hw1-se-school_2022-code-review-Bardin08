@@ -1,4 +1,5 @@
 using Api.Models.Responses;
+using AutoMapper;
 using Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,14 @@ namespace Api.Controllers;
 public class SubscriptionController : ControllerBase
 {
     private readonly ISubscriptionService _subscriptionService;
+    private readonly IMapper _mapper;
 
-    public SubscriptionController(ISubscriptionService subscriptionService)
+    public SubscriptionController(
+        ISubscriptionService subscriptionService,
+        IMapper mapper)
     {
         _subscriptionService = subscriptionService;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -53,13 +58,7 @@ public class SubscriptionController : ControllerBase
     public async Task<IActionResult> Notify()
     {
         var result = await _subscriptionService.NotifyAsync();
-        var response = new SendEmailsResponse
-        {
-            TotalSubscribers = result.TotalSubscribers,
-            SuccessfullyNotified = result.SuccessfullyNotified,
-            Failed = result.Failed
-        };
-
+        var response = _mapper.Map<SendEmailsResponse>(result);
         return Ok(response);
     }
 }

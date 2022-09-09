@@ -34,7 +34,7 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
         {
             TotalSubscribers = 1,
             SuccessfullyNotified = 1,
-            Failed = new List<string>()
+            Failed = new List<FailedEmailNotificationSummaryResponse>()
         };
         
         const string emailTemplate = "integration-tests_{0}@gmail.com";

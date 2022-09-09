@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Controllers;
+using Api.Mappings;
+using AutoMapper;
 using Core.Abstractions;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,17 @@ public class SubscriptionControllerTests
 {
     private readonly SubscriptionController _sut;
     private readonly Mock<ISubscriptionService> _subscriptionServiceMock = new();
+    private readonly IMapper _mapper;
 
     public SubscriptionControllerTests()
     {
-        _sut = new SubscriptionController(_subscriptionServiceMock.Object)
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile<NotificationsMappingProfiles>();
+        });
+        _mapper = mapperConfig.CreateMapper();
+
+        _sut = new SubscriptionController(_subscriptionServiceMock.Object, _mapper)
         {
             ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext()}
         };
@@ -77,11 +85,11 @@ public class SubscriptionControllerTests
     public async Task Notify_WhenAllNotificationsSent_ReturnsStatus200OK()
     {
         // Arrange
-        _subscriptionServiceMock.Setup(x => x.NotifyAsync()).ReturnsAsync(new SubscriptionNotifyResult
+        _subscriptionServiceMock.Setup(x => x.NotifyAsync()).ReturnsAsync(new SendEmailNotificationsResult
         {
             TotalSubscribers = 1,
             SuccessfullyNotified = 1,
-            Failed = Enumerable.Empty<string>().ToList()
+            Failed = Enumerable.Empty<FailedEmailNotificationSummary>().ToList()
         });
         
         // Act

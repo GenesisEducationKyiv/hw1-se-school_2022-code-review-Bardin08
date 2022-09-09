@@ -36,10 +36,10 @@ public class SubscriptionService : ISubscriptionService
         return true;
     }
 
-    public async Task<SubscriptionNotifyResult> NotifyAsync()
+    public async Task<SendEmailNotificationsResult> NotifyAsync()
     {
-        var result = new SubscriptionNotifyResult();
-        var emailAddresses = (await _emailsStorage.ReadAllAsync(0, 0)).ToList();
+        var result = new SendEmailNotificationsResult();
+        var emailAddresses = (await _emailsStorage.ReadAllAsync()).ToList();
         result.TotalSubscribers = emailAddresses.Count;
 
         var currentExchangeRate = await _exchangeRateService.GetCurrentBtcToUahExchangeRateAsync();
@@ -52,7 +52,10 @@ public class SubscriptionService : ISubscriptionService
         var results = await Task.WhenAll(tasks);
         result.SuccessfullyNotified = results.Count(x => x.IsSuccessful);
         result.Failed = results.Where(x => !x.IsSuccessful)
-            .Select(x => $"Subscriber: {x.Email}, Error: {string.Join(", ", x.Errors ?? Enumerable.Empty<string>())}").ToList();
+            .Select(x => new FailedEmailNotificationSummary()
+            {
+                EmailAddress = x.Email!, Error = string.Join(", ", x.Errors ?? Array.Empty<string>())
+            }).ToList();
 
         return result;
     }

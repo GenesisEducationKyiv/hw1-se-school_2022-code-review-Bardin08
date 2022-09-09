@@ -18,5 +18,5 @@ public class SendEmailsResponse
     /// <summary>
     /// Emails that were not sent
     /// </summary>
-    public List<string>? Failed { get; set; }
+    public List<FailedEmailNotificationSummaryResponse>? Failed { get; set; }
 }
