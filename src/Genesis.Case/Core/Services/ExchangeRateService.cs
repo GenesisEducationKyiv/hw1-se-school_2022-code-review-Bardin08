@@ -1,6 +1,6 @@
 using Core.Abstractions;
 using Core.APIs;
-using Core.Models;
+using Core.APIs.Crypto.Models;
 
 namespace Core.Services;
 
@@ -13,7 +13,7 @@ public class ExchangeRateService : IExchangeRateService
         _coinbaseApi = coinbaseApi;
     }
 
-    public async Task<decimal> GetCurrentBtcToUahExchangeRateAsync()
+    public async Task<decimal> GetBtcToUahExchangeRateAsync()
     {
         var exchangeRate = await _coinbaseApi.GetExchangeRateAsync(Currency.Btc);
         var uahCurrencyCode = Currency.Uah.ToString().ToUpper();

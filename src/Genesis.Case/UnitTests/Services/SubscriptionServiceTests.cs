@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Abstractions;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using Core.Services;
 using Data.Providers;
 using Moq;
@@ -79,10 +80,16 @@ public class SubscriptionServiceTests
         // Arrange
         _jsonEmailsStorageMock.Setup(x => x.ReadAllAsync(It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(subscribedEmails);
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync()).ReturnsAsync(1);
-        _emailServiceMock.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string e, string _, string _) =>
-                new SendEmailResult {Email = e, IsSuccessful = true, Timestamp = DateTimeOffset.UtcNow});
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
+        _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
+            .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
+                .Select(n => new SendEmailResult
+                {
+                    Email = n.To,
+                    IsSuccessful = true,
+                    Timestamp = DateTimeOffset.UtcNow,
+                    Errors = Array.Empty<string>()
+                }).ToList());
 
         // Act
         var result = await _sut.NotifyAsync();
@@ -101,16 +108,16 @@ public class SubscriptionServiceTests
         // Arrange
         _jsonEmailsStorageMock.Setup(x => x.ReadAllAsync(It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(subscribedEmails);
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync()).ReturnsAsync(1);
-        _emailServiceMock.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string e, string _, string _) =>
-                new SendEmailResult
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
+        _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
+            .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
+                .Select(n => new SendEmailResult
                 {
-                    Email = e,
+                    Email = n.To,
                     IsSuccessful = false,
                     Timestamp = DateTimeOffset.UtcNow,
                     Errors = new[] {"Notification sending failed"}
-                });
+                }).ToList());
 
         // Act
         var result = await _sut.NotifyAsync();

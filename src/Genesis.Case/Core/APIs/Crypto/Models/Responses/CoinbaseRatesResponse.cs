@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace Core.Models;
+namespace Core.APIs.Crypto.Models.Responses;
 
 public class CoinbaseRatesResponse
 {

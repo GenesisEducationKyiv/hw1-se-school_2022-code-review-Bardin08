@@ -27,7 +27,7 @@ public class RateControllerTests
     public async Task Get_WhenSuccess_ReturnsExchangeRate()
     {
         // Arrange
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync())
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync())
             .ReturnsAsync(decimal.Parse("1.0"));
 
         // Act
@@ -41,7 +41,7 @@ public class RateControllerTests
     public async Task Get_WhenException_ReturnsMinusOne()
     {
         // Arrange
-        _exchangeRateServiceMock.Setup(x => x.GetCurrentBtcToUahExchangeRateAsync())
+        _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync())
             .Throws<NullReferenceException>();
 
         // Act

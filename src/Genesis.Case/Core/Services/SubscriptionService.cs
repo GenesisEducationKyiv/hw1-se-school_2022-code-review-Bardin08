@@ -1,5 +1,5 @@
 using Core.Abstractions;
-using Core.Models;
+using Core.Models.Notifications.Emails;
 using Data.Providers;
 
 namespace Core.Services;
@@ -25,7 +25,6 @@ public class SubscriptionService : ISubscriptionService
             return false;
         }
 
-        // We can't use ReadAsync here, because a model that we store doesn't contains an ID.
         var isAlreadyExists = (await _emailsStorage.ReadAsync(email)) != null;
 
         if (isAlreadyExists)
@@ -37,23 +36,29 @@ public class SubscriptionService : ISubscriptionService
         return true;
     }
 
-    public async Task<SubscriptionNotifyResult> NotifyAsync()
+    public async Task<SendEmailNotificationsResult> NotifyAsync()
     {
-        var result = new SubscriptionNotifyResult();
-        var emailAddresses = (await _emailsStorage.ReadAllAsync(0, 0)).ToList();
+        var result = new SendEmailNotificationsResult();
+        var emailAddresses = (await _emailsStorage.ReadAllAsync()).ToList();
         result.TotalSubscribers = emailAddresses.Count;
 
-        var currentExchangeRate = await _exchangeRateService.GetCurrentBtcToUahExchangeRateAsync();
+        var currentExchangeRate = await _exchangeRateService.GetBtcToUahExchangeRateAsync();
 
-        var tasks = emailAddresses
-            .Select(address => _emailService.SendEmailAsync(address, "Current Exchange Rate",
-                $"Hello, {address}!\n\nWe have a new BTC to UAH exchange rate for you! It is {currentExchangeRate} now!"))
-            .ToList();
+        var notifications = emailAddresses.Select(email => new EmailNotification()
+        {
+            To = email,
+            Subject = "BTC to UAH exchange rate",
+            Message = $"Hello, {email}!\n\nWe have a new BTC to UAH exchange rate for you! It is {currentExchangeRate} now!"
+        }).ToList();
 
-        var results = await Task.WhenAll(tasks);
+        var results = await _emailService.SendEmailsAsync(notifications);
+
         result.SuccessfullyNotified = results.Count(x => x.IsSuccessful);
         result.Failed = results.Where(x => !x.IsSuccessful)
-            .Select(x => $"Subscriber: {x.Email}, Error: {string.Join(", ", x.Errors ?? Enumerable.Empty<string>())}").ToList();
+            .Select(x => new FailedEmailNotificationSummary()
+            {
+                EmailAddress = x.Email!, Error = string.Join(", ", x.Errors ?? Array.Empty<string>())
+            }).ToList();
 
         return result;
     }

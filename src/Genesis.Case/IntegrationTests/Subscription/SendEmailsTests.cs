@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Api;
 using Api.Models.Responses;
 using Data.Providers;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -34,7 +33,7 @@ public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program
         {
             TotalSubscribers = 1,
             SuccessfullyNotified = 1,
-            Failed = new List<string>()
+            Failed = new List<FailedEmailNotificationSummaryResponse>()
         };
         
         const string emailTemplate = "integration-tests_{0}@gmail.com";

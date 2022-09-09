@@ -1,4 +1,5 @@
-using Core.Models;
+using Core.APIs.Crypto.Models;
+using Core.APIs.Crypto.Models.Responses;
 using Newtonsoft.Json;
 
 namespace Core.APIs;
