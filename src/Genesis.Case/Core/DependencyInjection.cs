@@ -2,7 +2,6 @@ using Core.Abstractions;
 using Core.APIs;
 using Core.Models.Notifications.Emails;
 using Core.Services;
-using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,5 +20,10 @@ public static class DependencyInjection
         services.AddTransient<IExchangeRateService, ExchangeRateService>();
         services.AddTransient<ISubscriptionService, SubscriptionService>();
         services.AddTransient<IEmailService, EmailService>();
+
+        services.AddHttpClient<ICoinBaseApi, CoinBaseApi>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.coinbase.com/v2/");
+        }).AddPolicyHandler(HttpRetryPolicies.GetRetryPolicy());
     }
 }

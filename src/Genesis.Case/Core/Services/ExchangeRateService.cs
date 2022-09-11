@@ -16,8 +16,12 @@ public class ExchangeRateService : IExchangeRateService
     public async Task<decimal> GetBtcToUahExchangeRateAsync()
     {
         var exchangeRate = await _coinbaseApi.GetExchangeRateAsync(Currency.Btc);
-        var uahCurrencyCode = Currency.Uah.ToString().ToUpper();
+        if (exchangeRate is null)
+        {
+            return decimal.MinusOne;
+        }
 
+        var uahCurrencyCode = Currency.Uah.ToString().ToUpper();
         var btcToUah = exchangeRate!.Data!.Rates![uahCurrencyCode]!.ToString();
         var isParsed = decimal.TryParse(btcToUah, out var exchangeRateValue);
         return isParsed ? exchangeRateValue : decimal.MinusOne;

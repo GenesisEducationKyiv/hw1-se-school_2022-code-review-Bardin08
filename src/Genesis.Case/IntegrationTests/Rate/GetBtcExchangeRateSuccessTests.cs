@@ -5,11 +5,11 @@ using Xunit;
 
 namespace IntegrationTests.Rate;
 
-public class GetBtcExchangeRateTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class GetBtcExchangeRateSuccessTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
 
-    public GetBtcExchangeRateTests(
+    public GetBtcExchangeRateSuccessTests(
         CustomWebApplicationFactory<Program> factory)
     {
         _httpClient = factory.CreateDefaultClient();
