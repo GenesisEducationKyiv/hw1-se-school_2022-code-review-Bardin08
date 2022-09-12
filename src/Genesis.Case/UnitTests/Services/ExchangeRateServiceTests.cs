@@ -46,7 +46,10 @@ public class ExchangeRateServiceTests
         _coinBaseApiMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>()))
             .ReturnsAsync((CoinbaseRatesResponse?)null);
 
-        // Act & Assert
-        await Assert.ThrowsAsync<NullReferenceException>(async () => await _sut.GetBtcToUahExchangeRateAsync());
+        // Act
+        var response = await _sut.GetBtcToUahExchangeRateAsync();
+
+        // Assert
+        Assert.Equal(Decimal.MinusOne, response);
     }
 }
