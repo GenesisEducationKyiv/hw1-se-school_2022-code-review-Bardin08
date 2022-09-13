@@ -26,6 +26,12 @@ public class CustomWebApplicationFactory<TStartup>
 
             try
             {
+                var emails = await emailsStorage.ReadAllAsync();
+                foreach (var e in emails)
+                {
+                    await emailsStorage.DeleteAsync(e);
+                }
+
                 // As email storage does not have any methods to check if it is initiated correctly,
                 // to check that we can add a test record, and then remove it.
                 // If something went wrong we can handle it at the catch block and log that emails storage initiated incorrectly.
