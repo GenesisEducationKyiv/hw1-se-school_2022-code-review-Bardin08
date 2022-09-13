@@ -14,7 +14,6 @@ using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using MimeKit;
 using Moq;
 using Newtonsoft.Json;
@@ -22,6 +21,7 @@ using Xunit;
 
 namespace IntegrationTests.Subscription;
 
+[Collection("Subscription")]
 public class SendEmailsFailsTests
     : IClassFixture<CustomWebApplicationFactory<Program>>
 {
@@ -31,7 +31,7 @@ public class SendEmailsFailsTests
 
     public SendEmailsFailsTests(CustomWebApplicationFactory<Program> factory)
     {
-        _testUId = Guid.NewGuid();
+        _testUId = factory.TestUId;
         _httpClient = factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
