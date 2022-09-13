@@ -1,8 +1,9 @@
 using Core.Notifications.Emails.Models;
 
-namespace Core.Abstractions;
+namespace Core.Notifications.Emails.Providers.Abstractions;
 
-public interface IEmailService
+public interface IBaseEmailProvider
 {
     Task<List<SendEmailResult>> SendEmailsAsync(IEnumerable<EmailNotification> notifications);
+
 }

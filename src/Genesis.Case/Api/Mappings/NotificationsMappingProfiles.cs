@@ -1,6 +1,6 @@
 using Api.Models.Responses;
 using AutoMapper;
-using Core.Models.Notifications.Emails;
+using Core.Notifications.Emails.Models;
 
 namespace Api.Mappings;
 
