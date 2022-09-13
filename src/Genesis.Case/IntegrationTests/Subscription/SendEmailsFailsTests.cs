@@ -21,15 +21,17 @@ using Xunit;
 
 namespace IntegrationTests.Subscription;
 
+[Collection("Subscription")]
 public class SendEmailsFailsTests
     : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
     private readonly IJsonEmailsStorage _emailsStorage;
-
+    private readonly Guid _testUId;
 
     public SendEmailsFailsTests(CustomWebApplicationFactory<Program> factory)
     {
+        _testUId = factory.TestUId;
         _httpClient = factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
@@ -68,14 +70,15 @@ public class SendEmailsFailsTests
 
                 var gmailProviderMock = new Mock<IGmailProvider>();
 
+                var subscriber = string.Format("integration-tests_{0}@gmail.com", _testUId);
                 var expectedResponse = new List<SendEmailResult>
                 {
                     new()
                     {
-                        Email = "integration-tests@gmail.com",
+                        Email = subscriber,
                         Errors = new[]
                         {
-                            "A letter to integration-tests@gmail.com wasn't sent. SMTP server not respond"
+                            $"A letter to {subscriber} wasn't sent. SMTP server not respond"
                         },
                         IsSuccessful = false,
                         Timestamp = DateTimeOffset.UtcNow
@@ -97,8 +100,9 @@ public class SendEmailsFailsTests
     [Fact]
     public async Task SendEmails_SmtpServerNotResponse_ReturnsOk()
     {
-        const string subscriber = "integration-tests@gmail.com";
-
+        const string email = "integration-tests_{0}@gmail.com";
+        var subscriber = string.Format(email, _testUId);
+        
         var expectedResponse = new SendEmailsResponse
         {
             TotalSubscribers = 1,

@@ -4,6 +4,7 @@ using Data.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace IntegrationTests;
@@ -12,15 +13,24 @@ namespace IntegrationTests;
 public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup: class
 {
+    public Guid TestUId { get; set; } = Guid.NewGuid();
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         // ReSharper disable once AsyncVoidLambda
         builder.ConfigureServices(async s =>
         {
-            var serviceProvider = s.BuildServiceProvider();
-            using var scope = serviceProvider.CreateScope();
+            var emailStorageDescriptor = new ServiceDescriptor(
+                typeof(IJsonEmailsStorage),
+                new JsonEmailsStorage(cfg => cfg.Filename = $"emails-{TestUId}.json"));
 
+            s.Replace(emailStorageDescriptor);
+
+            var serviceProvider = s.BuildServiceProvider();
+
+            using var scope = serviceProvider.CreateScope();
             var scopedServices = scope.ServiceProvider;
+            
             var emailsStorage = scopedServices.GetRequiredService<IJsonEmailsStorage>();
             var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
 
