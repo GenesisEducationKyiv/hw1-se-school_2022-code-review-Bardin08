@@ -1,5 +1,5 @@
 using Core.Abstractions;
-using Core.Models.Notifications.Emails;
+using Core.Notifications.Emails.Models;
 using Data.Providers;
 
 namespace Core.Services;

@@ -13,12 +13,12 @@ using Xunit;
 namespace IntegrationTests.Subscription;
 
 [Collection("Subscription")]
-public class SendEmailsTests : IClassFixture<CustomWebApplicationFactory<Program>>
+public class SendEmailsSuccessTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
     private readonly IJsonEmailsStorage _emailsStorage;
     
-    public SendEmailsTests(CustomWebApplicationFactory<Program> factory)
+    public SendEmailsSuccessTests(CustomWebApplicationFactory<Program> factory)
     {
         _httpClient = factory.CreateDefaultClient();
 

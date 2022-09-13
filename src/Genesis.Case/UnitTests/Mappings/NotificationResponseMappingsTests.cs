@@ -3,7 +3,7 @@ using System.Linq;
 using Api.Mappings;
 using Api.Models.Responses;
 using AutoMapper;
-using Core.Models.Notifications.Emails;
+using Core.Notifications.Emails.Models;
 using Xunit;
 
 namespace UnitTests.Mappings;

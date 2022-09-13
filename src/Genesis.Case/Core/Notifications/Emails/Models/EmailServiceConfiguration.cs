@@ -1,4 +1,4 @@
-namespace Core.Models.Notifications.Emails;
+namespace Core.Notifications.Emails.Models;
 
 public class EmailServiceConfiguration
 {
