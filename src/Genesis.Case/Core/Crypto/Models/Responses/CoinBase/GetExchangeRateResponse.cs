@@ -1,8 +1,8 @@
 using Newtonsoft.Json.Linq;
 
-namespace Core.APIs.Crypto.Models.Responses;
+namespace Core.Crypto.Models.Responses.CoinBase;
 
-public class CoinbaseRatesResponse
+public class GetExchangeRateResponse
 {
     public Data? Data { get; set; }
 }

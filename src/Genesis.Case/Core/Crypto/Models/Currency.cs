@@ -1,4 +1,4 @@
-namespace Core.APIs.Crypto.Models;
+namespace Core.Crypto.Models;
 
 public enum Currency
 {
