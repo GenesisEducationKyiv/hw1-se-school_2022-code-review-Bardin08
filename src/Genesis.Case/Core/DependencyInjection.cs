@@ -47,5 +47,6 @@ public static class DependencyInjection
         services.AddTransient<IBinanceCryptoProvider, BinanceCryptoProvider>();
 
         services.AddTransient<ICryptoProviderFactory, CryptoProviderFactory>();
+        services.AddTransient<ICryptoProvider, BaseCryptoProvider>();
     }
 }

@@ -9,18 +9,26 @@ public interface IBinanceCryptoProvider
 {
 }
 
-public class BinanceCryptoProvider : ICryptoProvider, IBinanceCryptoProvider
+public class BinanceCryptoProvider : ICryptoProvider, IBinanceCryptoProvider, ICryptoProviderChainSegment
 {
     private readonly IBinanceApi _binanceApi;
+
+    private ICryptoProvider? _nextProvider;
 
     public BinanceCryptoProvider(IBinanceApi binanceApi)
     {
         _binanceApi = binanceApi;
     }
 
-    public async Task<CryptoProviderResponse> GetExchangeRateAsync(Currency from, Currency to)
+    public ICryptoProvider SetNextProvider(ICryptoProvider nextProvider)
     {
-        var response = new CryptoProviderResponse {From = from, To = to, ExchangeRate = Decimal.MinusOne};
+        _nextProvider = nextProvider;
+        return nextProvider;
+    }
+
+    public async Task<GetExchangeRateResponse> GetExchangeRateAsync(Currency from, Currency to)
+    {
+        var response = new GetExchangeRateResponse {From = from, To = to, ExchangeRate = decimal.MinusOne};
 
         var exchangeRateApiResponse = await _binanceApi.GetExchangeRateAsync(from, to);
         if (exchangeRateApiResponse is null)
@@ -29,6 +37,17 @@ public class BinanceCryptoProvider : ICryptoProvider, IBinanceCryptoProvider
         }
 
         response.ExchangeRate = exchangeRateApiResponse.Price;
+
+        if (response.ExchangeRate != decimal.MinusOne || _nextProvider == null)
+        {
+            return response;
+        }
+
+        var exRate = await _nextProvider.GetExchangeRateAsync(from, to);
+        if (exRate.ExchangeRate != decimal.MinusOne)
+        {
+            response.ExchangeRate = exRate.ExchangeRate;
+        }
 
         return response;
     }

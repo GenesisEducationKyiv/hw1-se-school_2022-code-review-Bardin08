@@ -5,5 +5,5 @@ namespace Core.Crypto.Abstractions;
 
 public interface ICryptoProvider
 {
-    Task<CryptoProviderResponse> GetExchangeRateAsync(Currency from, Currency to);
+    Task<GetExchangeRateResponse> GetExchangeRateAsync(Currency from, Currency to);
 }

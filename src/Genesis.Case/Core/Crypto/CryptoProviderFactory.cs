@@ -26,7 +26,7 @@ public class CryptoProviderFactory : ICryptoProviderFactory
         {
             "coinbase" => (ICryptoProvider) _serviceProvider.GetRequiredService<ICoinBaseCryptoProvider>(),
             "binance" => (ICryptoProvider) _serviceProvider.GetRequiredService<IBinanceCryptoProvider>(),
-            _ => throw new Exception($"Crypto provider '{providerName}' not found")
+            _ => null!
         };
 
         return provider;

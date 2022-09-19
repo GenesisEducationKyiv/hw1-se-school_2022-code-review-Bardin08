@@ -1,6 +1,6 @@
 namespace Core.Crypto.Models.Responses;
 
-public class CryptoProviderResponse
+public class GetExchangeRateResponse
 {
     public Currency From { get; set; }
     public Currency To { get; set; }

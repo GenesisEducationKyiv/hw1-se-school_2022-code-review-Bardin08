@@ -26,7 +26,7 @@ public class BinanceApi : IBinanceApi
         var requestUrl = $"ticker/price?symbol={symbol}";
 
         var response = await _httpClient.GetAsync(requestUrl);
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
             return null;
         }

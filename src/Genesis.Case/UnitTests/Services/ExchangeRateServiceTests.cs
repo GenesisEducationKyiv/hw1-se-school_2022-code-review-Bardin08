@@ -20,90 +20,38 @@ namespace UnitTests.Services;
 public class ExchangeRateServiceTests
 {
     private readonly ExchangeRateService _sut;
-    private readonly Mock<ICryptoProviderFactory> _cryptoProviderFactoryMock = new();
-    private readonly Mock<ICoinBaseApi> _coinBaseApiMock = new();
-    private readonly Mock<IBinanceApi> _binanceApiMock = new();
+    private readonly Mock<ICryptoProvider> _cryptoProviderMock = new();
 
     public ExchangeRateServiceTests()
     {
-        _sut = new ExchangeRateService(_cryptoProviderFactoryMock.Object);
+        _sut = new ExchangeRateService(_cryptoProviderMock.Object);
     }
 
     [Fact]
-    public async Task GetExchangeRateAsync_CoinBase_ReturnsExpectedValue()
+    public async Task GetExchangeRateAsync_ReturnsExpectedValue()
     {
         // Arrange
-        var expectedValue = decimal.Parse("1.00");
-        var coinBaseResponse = new GetExchangeRateResponse
-        {
-            Data = new Core.Crypto.Models.Responses.CoinBase.Data
-            {
-                Rates = JToken.Parse("{\"UAH\":1.00}")
-            }
-        };
-        _coinBaseApiMock.Setup(x => x.GetExchangeRateAsync(Currency.Btc))
-            .ReturnsAsync(coinBaseResponse);
-        _cryptoProviderFactoryMock.Setup(x => x.CreateProvider())
-            .Returns(new CoinBaseCryptoProvider(_coinBaseApiMock.Object));
+        _cryptoProviderMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>(), It.IsAny<Currency>()))
+            .ReturnsAsync(new Core.Crypto.Models.Responses.GetExchangeRateResponse {ExchangeRate = decimal.One});
 
         // Act
         var exchangeRate = await _sut.GetBtcToUahExchangeRateAsync();
 
         // Assert
-        Assert.Equal(expectedValue, exchangeRate);
+        Assert.Equal(decimal.One, exchangeRate);
     }
 
     [Fact]
-    public async Task GetExchangeRateAsync_CoinBase_ReturnsError()
+    public async Task GetExchangeRateAsync_ReturnsError()
     {
         // Arrange
-        _coinBaseApiMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>()))
-            .ReturnsAsync((GetExchangeRateResponse?)null);
-        _cryptoProviderFactoryMock.Setup(x => x.CreateProvider())
-            .Returns(new CoinBaseCryptoProvider(_coinBaseApiMock.Object));
-        
+        _cryptoProviderMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>(), It.IsAny<Currency>()))
+            .ReturnsAsync(new Core.Crypto.Models.Responses.GetExchangeRateResponse {ExchangeRate = decimal.MinusOne});
+
         // Act
         var response = await _sut.GetBtcToUahExchangeRateAsync();
 
         // Assert
-        Assert.Equal(Decimal.MinusOne, response);
-    }
-
-    [Fact]
-    public async Task GetExchangeRateAsync_Binance_ReturnsExpectedValue()
-    {
-        // Arrange
-        var expectedValue = decimal.One;
-        var apiResponse = new Core.Crypto.Models.Responses.Binance.GetExchangeRateResponse()
-        {
-            Symbol = "BTCUAH",
-            Price = decimal.One
-        };
-        _binanceApiMock.Setup(x => x.GetExchangeRateAsync(Currency.Btc, Currency.Uah))
-            .ReturnsAsync(apiResponse);
-        _cryptoProviderFactoryMock.Setup(x => x.CreateProvider())
-            .Returns(new BinanceCryptoProvider(_binanceApiMock.Object));
-
-        // Act
-        var exchangeRate = await _sut.GetBtcToUahExchangeRateAsync();
-
-        // Assert
-        Assert.Equal(expectedValue, exchangeRate);
-    }
-
-    [Fact]
-    public async Task GetExchangeRateAsync_Binance_ReturnsError()
-    {
-        // Arrange
-        _binanceApiMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>(), It.IsAny<Currency>()))
-            .ReturnsAsync((Core.Crypto.Models.Responses.Binance.GetExchangeRateResponse?)null);
-        _cryptoProviderFactoryMock.Setup(x => x.CreateProvider())
-            .Returns(new BinanceCryptoProvider(_binanceApiMock.Object));
-        
-        // Act
-        var response = await _sut.GetBtcToUahExchangeRateAsync();
-
-        // Assert
-        Assert.Equal(Decimal.MinusOne, response);
+        Assert.Equal(decimal.MinusOne, response);
     }
 }

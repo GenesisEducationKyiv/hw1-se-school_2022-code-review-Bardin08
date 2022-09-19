@@ -2,6 +2,7 @@ using Core.Crypto.Models;
 using Core.Crypto.Models.Responses;
 using Core.Crypto.Models.Responses.CoinBase;
 using Newtonsoft.Json;
+using GetExchangeRateResponse = Core.Crypto.Models.Responses.CoinBase.GetExchangeRateResponse;
 
 namespace Core.Crypto.Api;
 

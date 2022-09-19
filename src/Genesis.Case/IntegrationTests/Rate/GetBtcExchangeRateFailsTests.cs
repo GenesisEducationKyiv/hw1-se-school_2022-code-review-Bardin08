@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -29,6 +30,7 @@ public class GetBtcExchangeRateFailsTests
 
                 var response = new HttpResponseMessage()
                 {
+                    StatusCode = HttpStatusCode.InternalServerError,
                     Content = JsonContent.Create(new {error = "Invalid currency code"})
                 };
 
@@ -42,6 +44,11 @@ public class GetBtcExchangeRateFailsTests
                 {
                     client.BaseAddress = new Uri("https://api.coinbase/com/v2/");
                 }).ConfigurePrimaryHttpMessageHandler(() => httpMessageHandlerMock.Object);
+
+                services.AddHttpClient<IBinanceApi, BinanceApi>(client =>
+                {
+                    client.BaseAddress = new Uri("https://api.binance.com/api/v3/");
+                }).ConfigurePrimaryHttpMessageHandler(() => httpMessageHandlerMock.Object);;
             });
         }).CreateClient();
     }
@@ -50,7 +57,6 @@ public class GetBtcExchangeRateFailsTests
     public async Task Get_BtcExchangeRate_ReturnsMinusOne()
     {
         var response = await _httpClient.GetAsync("/rate");
-        response.EnsureSuccessStatusCode();
         var responseString = await response.Content.ReadAsStringAsync();
         Assert.Equal(decimal.MinusOne, decimal.Parse(responseString));
     }

@@ -1,22 +1,22 @@
 using Core.Abstractions;
-using Core.Crypto;
+using Core.Crypto.Abstractions;
 using Core.Crypto.Models;
 
 namespace Core.Services;
 
 public class ExchangeRateService : IExchangeRateService
 {
-    private readonly ICryptoProviderFactory _cryptoProviderFactory;
+    private readonly ICryptoProvider _cryptoProvider;
 
-    public ExchangeRateService(ICryptoProviderFactory cryptoProviderFactory)
+
+    public ExchangeRateService(ICryptoProvider cryptoProvider)
     {
-        _cryptoProviderFactory = cryptoProviderFactory;
+        _cryptoProvider = cryptoProvider;
     }
 
     public async Task<decimal> GetBtcToUahExchangeRateAsync()
     {
-        var provider = _cryptoProviderFactory.CreateProvider();
-        var getExchangeRateResponse = await provider.GetExchangeRateAsync(Currency.Btc, Currency.Uah);
+        var getExchangeRateResponse = await _cryptoProvider.GetExchangeRateAsync(Currency.Btc, Currency.Uah);
         return getExchangeRateResponse.ExchangeRate;
     }
 }
