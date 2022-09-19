@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Core.Crypto.Abstractions;
 using Core.Crypto.Api;
+using Core.Crypto.Api.CoinBase;
 using Core.Crypto.Models;
 using Core.Crypto.Models.Responses.CoinBase;
 using Core.Crypto.Providers;
@@ -13,7 +14,7 @@ namespace UnitTests.Crypto.Providers;
 public class CoinBaseProviderTests
 {
     private readonly ICryptoProvider _sut;
-    private readonly Mock<ICoinBaseApi> _coinBaseApiMock = new();
+    private readonly Mock<ICoinBaseApiProxy> _coinBaseApiMock = new();
 
     public CoinBaseProviderTests()
     {

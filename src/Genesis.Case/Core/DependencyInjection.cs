@@ -2,6 +2,8 @@ using Core.Abstractions;
 using Core.Crypto;
 using Core.Crypto.Abstractions;
 using Core.Crypto.Api;
+using Core.Crypto.Api.Binance;
+using Core.Crypto.Api.CoinBase;
 using Core.Crypto.Providers;
 using Core.Notifications.Emails;
 using Core.Notifications.Emails.Models;
@@ -9,6 +11,7 @@ using Core.Notifications.Emails.Providers;
 using Core.Notifications.Emails.Providers.Abstractions;
 using Core.Services;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,5 +51,10 @@ public static class DependencyInjection
 
         services.AddTransient<ICryptoProviderFactory, CryptoProviderFactory>();
         services.AddTransient<ICryptoProvider, BaseCryptoProvider>();
+
+        services.AddScoped<ICoinBaseApiProxy, CoinBaseApiProxy>();
+        services.AddScoped<IBinanceApiProxy, BinanceApiProxy>();
+
+        services.AddSingleton<IMemoryCache, MemoryCache>();
     }
 }

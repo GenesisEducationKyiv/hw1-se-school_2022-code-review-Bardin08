@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Api;
 using Core.Crypto.Api;
+using Core.Crypto.Api.Binance;
+using Core.Crypto.Api.CoinBase;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;

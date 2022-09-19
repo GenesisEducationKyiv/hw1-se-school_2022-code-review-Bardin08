@@ -1,5 +1,6 @@
 using Core.Crypto.Abstractions;
 using Core.Crypto.Api;
+using Core.Crypto.Api.Binance;
 using Core.Crypto.Models;
 using Core.Crypto.Models.Responses;
 
@@ -11,11 +12,11 @@ public interface IBinanceCryptoProvider
 
 public class BinanceCryptoProvider : ICryptoProvider, IBinanceCryptoProvider, ICryptoProviderChainSegment
 {
-    private readonly IBinanceApi _binanceApi;
+    private readonly IBinanceApiProxy _binanceApi;
 
     private ICryptoProvider? _nextProvider;
 
-    public BinanceCryptoProvider(IBinanceApi binanceApi)
+    public BinanceCryptoProvider(IBinanceApiProxy binanceApi)
     {
         _binanceApi = binanceApi;
     }

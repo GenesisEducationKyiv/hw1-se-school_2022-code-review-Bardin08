@@ -1,5 +1,6 @@
 using Core.Crypto.Abstractions;
 using Core.Crypto.Api;
+using Core.Crypto.Api.CoinBase;
 using Core.Crypto.Models;
 using Core.Crypto.Models.Responses;
 
@@ -11,11 +12,11 @@ public interface ICoinBaseCryptoProvider
 
 public class CoinBaseCryptoProvider : ICryptoProvider, ICoinBaseCryptoProvider, ICryptoProviderChainSegment
 {
-    private readonly ICoinBaseApi _coinBaseApi;
+    private readonly ICoinBaseApiProxy _coinBaseApi;
 
     private ICryptoProvider? _nextProvider;
 
-    public CoinBaseCryptoProvider(ICoinBaseApi coinBaseApi)
+    public CoinBaseCryptoProvider(ICoinBaseApiProxy coinBaseApi)
     {
         _coinBaseApi = coinBaseApi;
     }

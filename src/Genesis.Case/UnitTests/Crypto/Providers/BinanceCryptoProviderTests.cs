@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Core.Crypto.Abstractions;
 using Core.Crypto.Api;
+using Core.Crypto.Api.Binance;
 using Core.Crypto.Models;
 using Core.Crypto.Models.Responses.Binance;
 using Core.Crypto.Providers;
@@ -12,7 +13,7 @@ namespace UnitTests.Crypto.Providers;
 public class BinanceCryptoProviderTests
 {
     private readonly ICryptoProvider _sut;
-    private readonly Mock<IBinanceApi> _binanceApiMock = new();
+    private readonly Mock<IBinanceApiProxy> _binanceApiMock = new();
 
     public BinanceCryptoProviderTests()
     {

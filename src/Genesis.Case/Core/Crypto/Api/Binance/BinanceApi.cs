@@ -1,10 +1,8 @@
 using Core.Crypto.Models;
-using Core.Crypto.Models.Responses;
-using Core.Crypto.Models.Responses.Binance;
 using Newtonsoft.Json;
 using GetExchangeRateResponse = Core.Crypto.Models.Responses.Binance.GetExchangeRateResponse;
 
-namespace Core.Crypto.Api;
+namespace Core.Crypto.Api.Binance;
 
 public interface IBinanceApi
 {
