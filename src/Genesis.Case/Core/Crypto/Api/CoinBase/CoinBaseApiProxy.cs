@@ -28,7 +28,8 @@ public class CoinBaseApiProxy : ICoinBaseApiProxy
 
     public async Task<GetExchangeRateResponse?> GetExchangeRateAsync(Currency currency)
     {
-        var cacheKey = $"binance-ex-rate-{currency}";
+        var currencyNormalized = currency.ToString().ToUpper();
+        var cacheKey = $"binance-ex-rate-{currencyNormalized}";
 
         var isCacheReceived = _memoryCache.TryGetValue(cacheKey, out var cache);
         if (isCacheReceived && cache is GetExchangeRateResponse response)
@@ -43,7 +44,7 @@ public class CoinBaseApiProxy : ICoinBaseApiProxy
             nameof(CoinBaseApi), JsonConvert.SerializeObject(apiResponse));
 
         if (apiResponse is {Data.Rates: { }} &&
-            apiResponse.Data.Rates[currency] is { } _)
+            apiResponse.Data.Rates[currencyNormalized] is { } _)
         {
             _memoryCache.Set(cacheKey, apiResponse, TimeSpan.FromMinutes(5));
         }

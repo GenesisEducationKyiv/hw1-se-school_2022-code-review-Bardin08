@@ -15,3 +15,4 @@ COPY --from=build /out .
 ENTRYPOINT ["dotnet", "Api.dll"]
 
 ENV ASPNETCORE_ENVIRONMENT=Development
+ENV CRYPTO_CURRENCY_PROVIDER=coinbase
