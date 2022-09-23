@@ -1,11 +1,17 @@
 using Core.Abstractions;
-using Core.APIs;
+using Core.Crypto;
+using Core.Crypto.Abstractions;
+using Core.Crypto.Api;
+using Core.Crypto.Api.Binance;
+using Core.Crypto.Api.CoinBase;
+using Core.Crypto.Providers;
 using Core.Notifications.Emails;
 using Core.Notifications.Emails.Models;
 using Core.Notifications.Emails.Providers;
 using Core.Notifications.Emails.Providers.Abstractions;
 using Core.Services;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +26,7 @@ public static class DependencyInjection
         services.AddSingleton(gmailServiceConfiguration); 
 
         services.AddTransient<ICoinBaseApi, CoinBaseApi>();
+        services.AddTransient<IBinanceApi, BinanceApi>();
 
         services.AddTransient<IExchangeRateService, ExchangeRateService>();
         services.AddTransient<ISubscriptionService, SubscriptionService>();
@@ -30,8 +37,24 @@ public static class DependencyInjection
             client.BaseAddress = new Uri("https://api.coinbase.com/v2/");
         }).AddPolicyHandler(HttpRetryPolicies.GetRetryPolicy());
 
+        services.AddHttpClient<IBinanceApi, BinanceApi>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.binance.com/api/v3/");
+        }).AddPolicyHandler(HttpRetryPolicies.GetRetryPolicy());
+
         services.AddTransient<ISmtpClient, SmtpClient>();
         services.AddTransient<ISmtpClientFactory, SmtpClientFactory>();
         services.AddScoped<IGmailProvider, GmailEmailProvider>();
+
+        services.AddTransient<ICoinBaseCryptoProvider, CoinBaseCryptoProvider>();
+        services.AddTransient<IBinanceCryptoProvider, BinanceCryptoProvider>();
+
+        services.AddTransient<ICryptoProviderFactory, CryptoProviderFactory>();
+        services.AddTransient<ICryptoProvider, BaseCryptoProvider>();
+
+        services.AddScoped<ICoinBaseApiProxy, CoinBaseApiProxy>();
+        services.AddScoped<IBinanceApiProxy, BinanceApiProxy>();
+
+        services.AddSingleton<IMemoryCache, MemoryCache>();
     }
 }

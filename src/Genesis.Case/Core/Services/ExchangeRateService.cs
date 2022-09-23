@@ -1,29 +1,22 @@
 using Core.Abstractions;
-using Core.APIs;
-using Core.APIs.Crypto.Models;
+using Core.Crypto.Abstractions;
+using Core.Crypto.Models;
 
 namespace Core.Services;
 
 public class ExchangeRateService : IExchangeRateService
 {
-    private readonly ICoinBaseApi _coinbaseApi;
+    private readonly ICryptoProvider _cryptoProvider;
 
-    public ExchangeRateService(ICoinBaseApi coinbaseApi)
+
+    public ExchangeRateService(ICryptoProvider cryptoProvider)
     {
-        _coinbaseApi = coinbaseApi;
+        _cryptoProvider = cryptoProvider;
     }
 
     public async Task<decimal> GetBtcToUahExchangeRateAsync()
     {
-        var exchangeRate = await _coinbaseApi.GetExchangeRateAsync(Currency.Btc);
-        if (exchangeRate is null)
-        {
-            return decimal.MinusOne;
-        }
-
-        var uahCurrencyCode = Currency.Uah.ToString().ToUpper();
-        var btcToUah = exchangeRate!.Data!.Rates![uahCurrencyCode]!.ToString();
-        var isParsed = decimal.TryParse(btcToUah, out var exchangeRateValue);
-        return isParsed ? exchangeRateValue : decimal.MinusOne;
+        var getExchangeRateResponse = await _cryptoProvider.GetExchangeRateAsync(Currency.Btc, Currency.Uah);
+        return getExchangeRateResponse.ExchangeRate;
     }
 }

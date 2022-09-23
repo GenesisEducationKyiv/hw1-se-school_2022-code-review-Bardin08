@@ -1,12 +1,12 @@
-using Core.APIs.Crypto.Models;
-using Core.APIs.Crypto.Models.Responses;
+using Core.Crypto.Models;
 using Newtonsoft.Json;
+using GetExchangeRateResponse = Core.Crypto.Models.Responses.CoinBase.GetExchangeRateResponse;
 
-namespace Core.APIs;
+namespace Core.Crypto.Api.CoinBase;
 
 public interface ICoinBaseApi
 {
-    Task<CoinbaseRatesResponse?> GetExchangeRateAsync(Currency currency);
+    Task<GetExchangeRateResponse?> GetExchangeRateAsync(Currency currency);
 }
 
 public class CoinBaseApi : ICoinBaseApi
@@ -18,7 +18,7 @@ public class CoinBaseApi : ICoinBaseApi
         _httpClient = httpClient;
     }
 
-    public async Task<CoinbaseRatesResponse?> GetExchangeRateAsync(Currency currency)
+    public async Task<GetExchangeRateResponse?> GetExchangeRateAsync(Currency currency)
     {
         const string endpointName = "exchange-rates";
         var requestUrl = $"{endpointName}?currency={currency}";
@@ -30,7 +30,7 @@ public class CoinBaseApi : ICoinBaseApi
         }
 
         var responseBody = await getExchangeRateResponse.Content.ReadAsStringAsync();
-        var responseModel = JsonConvert.DeserializeObject<CoinbaseRatesResponse>(responseBody);
+        var responseModel = JsonConvert.DeserializeObject<GetExchangeRateResponse>(responseBody);
 
         return responseModel?.Data?.Rates is null ? null : responseModel;
     }
