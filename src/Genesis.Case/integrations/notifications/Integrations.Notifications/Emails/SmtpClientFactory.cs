@@ -1,7 +1,7 @@
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Notifications.Emails;
+namespace Integrations.Notifications.Emails;
 
 public class SmtpClientFactory : ISmtpClientFactory
 {

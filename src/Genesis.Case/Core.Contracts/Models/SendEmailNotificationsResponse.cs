@@ -1,6 +1,6 @@
-namespace Core.Notifications.Emails.Models;
+namespace Core.Contracts.Models;
 
-public class SendEmailNotificationsResult
+public class SendEmailNotificationsResponse
 {
     public int TotalSubscribers { get; set; }
     public int SuccessfullyNotified { get; set; }

@@ -1,4 +1,4 @@
-namespace Core.Abstractions;
+namespace Core.Contracts.Abstractions;
 
 public interface IExchangeRateService
 {

@@ -1,8 +1,10 @@
-using Core.Notifications.Emails.Models;
-using Core.Notifications.Emails.Providers.Abstractions;
+using Integrations.Notifications.Contracts.Abstractions;
+using Integrations.Notifications.Contracts.Abstractions.Emails;
+using Integrations.Notifications.Contracts.Models.Emails;
+using Integrations.Notifications.Emails.Models;
 using MailKit.Security;
 
-namespace Core.Notifications.Emails.Providers;
+namespace Integrations.Notifications.Emails.Providers;
 
 public class GmailEmailProvider : BaseEmailProvider, IGmailProvider
 {
@@ -17,20 +19,20 @@ public class GmailEmailProvider : BaseEmailProvider, IGmailProvider
         _configuration = configuration;
     }
 
-    public override async Task<List<SendEmailResult>> SendEmailsAsync(IEnumerable<EmailNotification> notifications)
+    public override async Task<List<SendEmailResult>> SendEmailsAsync(IEnumerable<EmailNotificationDto> notifications)
     {
         var tasks = notifications.Select(SendEmailAsync);
         var notificationResults = await Task.WhenAll(tasks);
         return notificationResults.ToList();
     }
 
-    private async Task<SendEmailResult> SendEmailAsync(EmailNotification notification)
+    private async Task<SendEmailResult> SendEmailAsync(EmailNotificationDto notificationDto)
     {
         var smtpClient = _smtpClientFactory.GetSmtpClient();
 
         try
         {
-            var email = GetMessage(notification);
+            var email = GetMessage(notificationDto);
 
             await smtpClient.ConnectAsync(_configuration.SmtpHost, _configuration.Port, SecureSocketOptions.StartTls);
             await smtpClient.AuthenticateAsync(_configuration.Login, _configuration.Password);
@@ -38,7 +40,7 @@ public class GmailEmailProvider : BaseEmailProvider, IGmailProvider
 
             return new SendEmailResult
             {
-                IsSuccessful = true, Email = notification.To, Timestamp = DateTimeOffset.UtcNow
+                IsSuccessful = true, Email = notificationDto.To, Timestamp = DateTimeOffset.UtcNow
             };
         }
         catch (Exception ex)
@@ -46,7 +48,7 @@ public class GmailEmailProvider : BaseEmailProvider, IGmailProvider
             return new SendEmailResult
             {
                 IsSuccessful = false,
-                Email = notification.To,
+                Email = notificationDto.To,
                 Timestamp = DateTimeOffset.UtcNow,
                 Errors = new[] {ex.Message}
             };

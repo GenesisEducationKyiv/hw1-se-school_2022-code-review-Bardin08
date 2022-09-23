@@ -1,4 +1,4 @@
-namespace Core.Notifications.Emails.Models;
+namespace Core.Contracts.Models;
 
 public class FailedEmailNotificationSummary
 {

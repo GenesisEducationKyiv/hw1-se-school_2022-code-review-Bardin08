@@ -1,6 +1,6 @@
-namespace Core.Notifications.Emails.Models;
+namespace Integrations.Notifications.Contracts.Models.Emails;
 
-public class EmailNotification
+public class EmailNotificationDto
 {
     public string? To { get; set; }
     public string? Subject { get; set; }

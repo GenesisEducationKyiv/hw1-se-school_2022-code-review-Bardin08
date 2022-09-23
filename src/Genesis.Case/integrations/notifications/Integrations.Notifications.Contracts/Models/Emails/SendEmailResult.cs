@@ -1,4 +1,4 @@
-namespace Core.Notifications.Emails.Models;
+namespace Integrations.Notifications.Contracts.Models.Emails;
 
 public class SendEmailResult
 {

@@ -1,6 +1,6 @@
 using MailKit.Net.Smtp;
 
-namespace Core.Notifications.Emails;
+namespace Integrations.Notifications.Emails;
 
 public interface ISmtpClientFactory
 {

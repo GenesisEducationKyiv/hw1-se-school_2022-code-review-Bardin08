@@ -3,7 +3,7 @@ using System.Linq;
 using Api.Mappings;
 using Api.Models.Responses;
 using AutoMapper;
-using Core.Notifications.Emails.Models;
+using Core.Contracts.Models;
 using Xunit;
 
 namespace UnitTests.Mappings;
@@ -43,7 +43,7 @@ public class NotificationResponseMappingsTests
     [Theory]
     [MemberData(nameof(SendEmailNotificationsResultData))]
     public void AutoMapper_MapFromSendEmailNotificationsResult_ReturnsSendEmailsResponse(
-        SendEmailNotificationsResult core, SendEmailsResponse api)
+        SendEmailNotificationsResponse core, SendEmailsResponse api)
     {
         // Arrange
 
@@ -70,11 +70,11 @@ public class NotificationResponseMappingsTests
         }
     }
 
-    public static TheoryData<SendEmailNotificationsResult, SendEmailsResponse> SendEmailNotificationsResultData =>
+    public static TheoryData<SendEmailNotificationsResponse, SendEmailsResponse> SendEmailNotificationsResultData =>
         new()
         {
             {
-                new SendEmailNotificationsResult
+                new SendEmailNotificationsResponse
                 {
                     TotalSubscribers = 1,
                     SuccessfullyNotified = 1,
@@ -88,7 +88,7 @@ public class NotificationResponseMappingsTests
                 }
             },
             {
-                new SendEmailNotificationsResult
+                new SendEmailNotificationsResponse
                 {
                     TotalSubscribers = 1,
                     SuccessfullyNotified = 0,

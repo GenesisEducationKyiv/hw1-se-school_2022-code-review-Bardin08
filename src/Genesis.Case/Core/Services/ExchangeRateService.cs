@@ -1,4 +1,5 @@
 using Core.Abstractions;
+using Core.Contracts.Abstractions;
 using Core.Crypto.Abstractions;
 using Core.Crypto.Models;
 

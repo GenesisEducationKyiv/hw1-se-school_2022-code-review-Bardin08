@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Abstractions;
-using Core.Notifications.Emails.Models;
+using Core.Contracts.Abstractions;
+using Core.Contracts.Models;
+using Core.Models.Notifications;
 using Core.Services;
 using Data.Providers;
 using Moq;
@@ -82,14 +84,12 @@ public class SubscriptionServiceTests
             .ReturnsAsync(subscribedEmails);
         _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
         _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
-            .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
-                .Select(n => new SendEmailResult
-                {
-                    Email = n.To,
-                    IsSuccessful = true,
-                    Timestamp = DateTimeOffset.UtcNow,
-                    Errors = Array.Empty<string>()
-                }).ToList());
+            .ReturnsAsync(new SendEmailNotificationsResponse
+            {
+                TotalSubscribers = subscribedEmails.Length,
+                SuccessfullyNotified = subscribedEmails.Length,
+                Failed = new List<FailedEmailNotificationSummary>()
+            });
 
         // Act
         var result = await _sut.NotifyAsync();
@@ -110,14 +110,16 @@ public class SubscriptionServiceTests
             .ReturnsAsync(subscribedEmails);
         _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync()).ReturnsAsync(1);
         _emailServiceMock.Setup(x => x.SendEmailsAsync(It.IsAny<IEnumerable<EmailNotification>>()))
-            .ReturnsAsync((IEnumerable<EmailNotification> notifications) => notifications
-                .Select(n => new SendEmailResult
-                {
-                    Email = n.To,
-                    IsSuccessful = false,
-                    Timestamp = DateTimeOffset.UtcNow,
-                    Errors = new[] {"Notification sending failed"}
-                }).ToList());
+            .ReturnsAsync(new SendEmailNotificationsResponse
+            {
+                TotalSubscribers = subscribedEmails.Length,
+                SuccessfullyNotified = 0,
+                Failed = subscribedEmails
+                    .Select(x => new FailedEmailNotificationSummary
+                    {
+                        Error = "Unit test | Email notification failed!", EmailAddress = x
+                    }).ToList()
+            });
 
         // Act
         var result = await _sut.NotifyAsync();

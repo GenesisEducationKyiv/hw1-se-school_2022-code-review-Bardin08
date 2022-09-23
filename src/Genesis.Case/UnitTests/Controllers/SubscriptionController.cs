@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Api.Controllers;
 using Api.Mappings;
 using AutoMapper;
-using Core.Abstractions;
-using Core.Notifications.Emails.Models;
+using Core.Contracts.Abstractions;
+using Core.Contracts.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -85,7 +85,7 @@ public class SubscriptionControllerTests
     public async Task Notify_WhenAllNotificationsSent_ReturnsStatus200OK()
     {
         // Arrange
-        _subscriptionServiceMock.Setup(x => x.NotifyAsync()).ReturnsAsync(new SendEmailNotificationsResult
+        _subscriptionServiceMock.Setup(x => x.NotifyAsync()).ReturnsAsync(new SendEmailNotificationsResponse
         {
             TotalSubscribers = 1,
             SuccessfullyNotified = 1,
