@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace Core.Crypto.Models.Responses.CoinBase;
+namespace Integrations.Crypto.Models.ExternalResponses.CoinBase;
 
 public class GetExchangeRateResponse
 {

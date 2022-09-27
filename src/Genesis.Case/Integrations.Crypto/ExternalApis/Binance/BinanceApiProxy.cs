@@ -1,10 +1,10 @@
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses.Binance;
+using Integrations.Crypro.Contracts.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using GetExchangeRateResponse = Integrations.Crypto.Models.ExternalResponses.Binance.GetExchangeRateResponse;
 
-namespace Core.Crypto.Api.Binance;
+namespace Integrations.Crypto.ExternalApis.Binance;
 
 public interface IBinanceApiProxy : IBinanceApi
 {

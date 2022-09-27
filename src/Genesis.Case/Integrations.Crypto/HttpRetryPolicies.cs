@@ -2,7 +2,7 @@ using System.Net;
 using Polly;
 using Polly.Extensions.Http;
 
-namespace Core;
+namespace Integrations.Crypto;
 
 public static class HttpRetryPolicies
 {

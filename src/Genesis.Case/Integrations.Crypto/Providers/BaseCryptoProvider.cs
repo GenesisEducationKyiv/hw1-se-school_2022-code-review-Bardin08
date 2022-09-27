@@ -1,9 +1,9 @@
-using Core.Crypto.Abstractions;
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses;
+using Integrations.Crypro.Contracts.Abstractions;
+using Integrations.Crypro.Contracts.Models;
+using Integrations.Crypto.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Crypto.Providers;
+namespace Integrations.Crypto.Providers;
 
 public class BaseCryptoProvider : ICryptoProvider
 {

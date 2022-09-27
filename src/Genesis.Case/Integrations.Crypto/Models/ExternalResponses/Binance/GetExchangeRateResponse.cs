@@ -1,4 +1,4 @@
-namespace Core.Crypto.Models.Responses.Binance;
+namespace Integrations.Crypto.Models.ExternalResponses.Binance;
 
 public class GetExchangeRateResponse
 {

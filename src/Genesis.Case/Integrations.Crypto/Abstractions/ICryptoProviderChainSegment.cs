@@ -1,4 +1,6 @@
-namespace Core.Crypto.Abstractions;
+using Integrations.Crypro.Contracts.Abstractions;
+
+namespace Integrations.Crypto.Abstractions;
 
 public interface ICryptoProviderChainSegment
 {

@@ -1,4 +1,4 @@
-namespace Core.Crypto.Models.Responses;
+namespace Integrations.Crypro.Contracts.Models;
 
 public class GetExchangeRateResponse
 {

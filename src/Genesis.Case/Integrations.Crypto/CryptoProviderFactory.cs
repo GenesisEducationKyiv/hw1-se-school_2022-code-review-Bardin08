@@ -1,8 +1,8 @@
-using Core.Crypto.Abstractions;
-using Core.Crypto.Providers;
+using Integrations.Crypro.Contracts.Abstractions;
+using Integrations.Crypto.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Crypto;
+namespace Integrations.Crypto;
 
 public interface ICryptoProviderFactory
 {

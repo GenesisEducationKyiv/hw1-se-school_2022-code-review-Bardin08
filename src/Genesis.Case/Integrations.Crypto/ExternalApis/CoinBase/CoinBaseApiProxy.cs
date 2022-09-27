@@ -1,10 +1,10 @@
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses.CoinBase;
+using Integrations.Crypro.Contracts.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using GetExchangeRateResponse = Integrations.Crypto.Models.ExternalResponses.CoinBase.GetExchangeRateResponse;
 
-namespace Core.Crypto.Api.CoinBase;
+namespace Integrations.Crypto.ExternalApis.CoinBase;
 
 public interface ICoinBaseApiProxy : ICoinBaseApi
 {

@@ -1,16 +1,15 @@
-using Core.Crypto.Abstractions;
-using Core.Crypto.Api;
-using Core.Crypto.Api.Binance;
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses;
+using Integrations.Crypro.Contracts.Abstractions;
+using Integrations.Crypro.Contracts.Models;
+using Integrations.Crypto.ExternalApis.Binance;
+using ICryptoProviderChainSegment = Integrations.Crypto.Abstractions.ICryptoProviderChainSegment;
 
-namespace Core.Crypto.Providers;
+namespace Integrations.Crypto.Providers;
 
 public interface IBinanceCryptoProvider
 {
 }
 
-public class BinanceCryptoProvider : ICryptoProvider, IBinanceCryptoProvider, ICryptoProviderChainSegment
+public class BinanceCryptoProvider : IBinanceCryptoProvider, ICryptoProvider, ICryptoProviderChainSegment
 {
     private readonly IBinanceApiProxy _binanceApi;
 

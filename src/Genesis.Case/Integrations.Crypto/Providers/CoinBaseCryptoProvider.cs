@@ -1,16 +1,15 @@
-using Core.Crypto.Abstractions;
-using Core.Crypto.Api;
-using Core.Crypto.Api.CoinBase;
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses;
+using Integrations.Crypro.Contracts.Abstractions;
+using Integrations.Crypro.Contracts.Models;
+using Integrations.Crypto.ExternalApis.CoinBase;
+using ICryptoProviderChainSegment = Integrations.Crypto.Abstractions.ICryptoProviderChainSegment;
 
-namespace Core.Crypto.Providers;
+namespace Integrations.Crypto.Providers;
 
 public interface ICoinBaseCryptoProvider
 {
 }
 
-public class CoinBaseCryptoProvider : ICryptoProvider, ICoinBaseCryptoProvider, ICryptoProviderChainSegment
+public class CoinBaseCryptoProvider : ICoinBaseCryptoProvider, ICryptoProvider, ICryptoProviderChainSegment
 {
     private readonly ICoinBaseApiProxy _coinBaseApi;
 
