@@ -1,5 +1,5 @@
-using Integrations.Crypro.Contracts.Abstractions;
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
 using Integrations.Crypto.ExternalApis.Binance;
 using ICryptoProviderChainSegment = Integrations.Crypto.Abstractions.ICryptoProviderChainSegment;
 

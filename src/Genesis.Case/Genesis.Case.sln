@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "crypto", "crypto", "{09E973
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrations.Crypto", "Integrations.Crypto\Integrations.Crypto.csproj", "{670886B3-AA17-49D6-9C77-E70C10A72EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrations.Crypro.Contracts", "Integrations.Crypro.Contracts\Integrations.Crypro.Contracts.csproj", "{243A74C2-FEAE-467C-AE0F-AEA2C447DF51}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,10 +64,6 @@ Global
 		{670886B3-AA17-49D6-9C77-E70C10A72EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{670886B3-AA17-49D6-9C77-E70C10A72EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{670886B3-AA17-49D6-9C77-E70C10A72EE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{243A74C2-FEAE-467C-AE0F-AEA2C447DF51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{243A74C2-FEAE-467C-AE0F-AEA2C447DF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{243A74C2-FEAE-467C-AE0F-AEA2C447DF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{243A74C2-FEAE-467C-AE0F-AEA2C447DF51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0A62733-8DFD-48EB-BDAE-F6996AB31FF1} = {1561039F-4BF4-4839-8FBD-AD548220A57C}
@@ -83,6 +77,5 @@ Global
 		{04B8BD55-FEAD-452B-B505-7E6BE0429700} = {1561039F-4BF4-4839-8FBD-AD548220A57C}
 		{09E973F0-FCAC-4FBA-A16A-15ADCA9D1393} = {91EEFA24-F1E6-44CA-8157-408B4CF2FE9E}
 		{670886B3-AA17-49D6-9C77-E70C10A72EE5} = {09E973F0-FCAC-4FBA-A16A-15ADCA9D1393}
-		{243A74C2-FEAE-467C-AE0F-AEA2C447DF51} = {09E973F0-FCAC-4FBA-A16A-15ADCA9D1393}
 	EndGlobalSection
 EndGlobal

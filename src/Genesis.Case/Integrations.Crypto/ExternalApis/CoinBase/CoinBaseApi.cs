@@ -1,4 +1,4 @@
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Models;
 using Newtonsoft.Json;
 using GetExchangeRateResponse = Integrations.Crypto.Models.ExternalResponses.CoinBase.GetExchangeRateResponse;
 

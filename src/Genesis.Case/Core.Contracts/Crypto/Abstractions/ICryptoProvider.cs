@@ -1,6 +1,6 @@
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Models;
 
-namespace Integrations.Crypro.Contracts.Abstractions;
+namespace Core.Contracts.Crypto.Abstractions;
 
 public interface ICryptoProvider
 {

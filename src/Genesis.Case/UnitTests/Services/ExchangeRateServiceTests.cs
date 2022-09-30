@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
 using Core.Services;
-using Integrations.Crypro.Contracts.Abstractions;
-using Integrations.Crypro.Contracts.Models;
 using Moq;
 using Xunit;
 

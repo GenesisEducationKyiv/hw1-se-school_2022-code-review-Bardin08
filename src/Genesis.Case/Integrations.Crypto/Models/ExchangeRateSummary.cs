@@ -1,4 +1,4 @@
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Models;
 
 namespace Integrations.Crypto.Models;
 

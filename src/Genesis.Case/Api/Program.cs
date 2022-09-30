@@ -1,6 +1,7 @@
 using System.Reflection;
 using Core;
 using Data;
+using Integrations.Crypto;
 using Integrations.Notifications;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +21,7 @@ namespace Api
             builder.Services.AddDataLayer(builder.Configuration);
             
             builder.Services.AddNotificationsIntegration(builder.Configuration);
-
+            builder.Services.AddCryptoIntegration(builder.Configuration);
 
             builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

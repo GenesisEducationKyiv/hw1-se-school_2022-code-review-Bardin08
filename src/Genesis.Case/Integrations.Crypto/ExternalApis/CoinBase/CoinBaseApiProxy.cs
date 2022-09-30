@@ -1,4 +1,4 @@
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

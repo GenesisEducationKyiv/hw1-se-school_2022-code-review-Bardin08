@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Integrations.Crypro.Contracts.Abstractions;
-using Integrations.Crypro.Contracts.Models;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
 using Integrations.Crypto.ExternalApis.CoinBase;
 using Integrations.Crypto.Providers;
 using Moq;

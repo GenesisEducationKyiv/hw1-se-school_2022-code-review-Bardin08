@@ -1,4 +1,4 @@
-using Integrations.Crypro.Contracts.Abstractions;
+using Core.Contracts.Crypto.Abstractions;
 using Integrations.Crypto.ExternalApis.Binance;
 using Integrations.Crypto.ExternalApis.CoinBase;
 using Integrations.Crypto.Providers;
@@ -12,6 +12,8 @@ public static class DependencyInjection
 {
     public static void AddCryptoIntegration(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddMemoryCache();      
+
         services.AddTransient<ICoinBaseApi, CoinBaseApi>();
         services.AddTransient<IBinanceApi, BinanceApi>();
 

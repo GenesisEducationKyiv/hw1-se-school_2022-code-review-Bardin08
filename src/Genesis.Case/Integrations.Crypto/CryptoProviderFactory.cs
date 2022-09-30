@@ -1,4 +1,4 @@
-using Integrations.Crypro.Contracts.Abstractions;
+using Core.Contracts.Crypto.Abstractions;
 using Integrations.Crypto.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
