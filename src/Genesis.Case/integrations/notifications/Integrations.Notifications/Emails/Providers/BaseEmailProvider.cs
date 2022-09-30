@@ -1,6 +1,5 @@
-using Integrations.Notifications.Contracts.Abstractions;
-using Integrations.Notifications.Contracts.Abstractions.Emails;
-using Integrations.Notifications.Contracts.Models.Emails;
+using Core.Contracts.Notifications.Abstractions.Emails;
+using Core.Contracts.Notifications.Models.Emails;
 using Integrations.Notifications.Emails.Models;
 using MimeKit;
 using MimeKit.Text;

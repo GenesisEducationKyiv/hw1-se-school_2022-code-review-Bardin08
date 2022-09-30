@@ -1,7 +1,7 @@
 using AutoMapper;
 using Core.Contracts.Models;
+using Core.Contracts.Notifications.Models.Emails;
 using Core.Models.Notifications;
-using Integrations.Notifications.Contracts.Models.Emails;
 
 namespace Core.Mapping;
 

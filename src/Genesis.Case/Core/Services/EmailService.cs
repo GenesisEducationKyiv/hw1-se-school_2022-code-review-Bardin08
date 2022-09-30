@@ -1,9 +1,9 @@
 using AutoMapper;
 using Core.Abstractions;
 using Core.Contracts.Models;
+using Core.Contracts.Notifications.Abstractions.Emails;
+using Core.Contracts.Notifications.Models.Emails;
 using Core.Models.Notifications;
-using Integrations.Notifications.Contracts.Abstractions.Emails;
-using Integrations.Notifications.Contracts.Models.Emails;
 
 namespace Core.Services;
 

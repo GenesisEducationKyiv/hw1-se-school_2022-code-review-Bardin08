@@ -24,7 +24,6 @@
       <ProjectReference Include="..\Data\Data.csproj" />
       <ProjectReference Include="..\Integrations.Crypro.Contracts\Integrations.Crypro.Contracts.csproj" />
       <ProjectReference Include="..\Integrations.Crypto\Integrations.Crypto.csproj" />
-      <ProjectReference Include="..\integrations\notifications\Integrations.Notifications.Contracts\Integrations.Notifications.Contracts.csproj" />
       <ProjectReference Include="..\integrations\notifications\Integrations.Notifications\Integrations.Notifications.csproj" />
       <ProjectReference Include="..\notifications\Integrations.Notifications\Integrations.Notifications.csproj" />
     </ItemGroup>

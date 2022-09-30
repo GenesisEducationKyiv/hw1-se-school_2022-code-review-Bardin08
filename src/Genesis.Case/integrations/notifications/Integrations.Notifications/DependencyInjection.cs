@@ -1,5 +1,4 @@
-using Integrations.Notifications.Contracts.Abstractions;
-using Integrations.Notifications.Contracts.Abstractions.Emails;
+using Core.Contracts.Notifications.Abstractions.Emails;
 using Integrations.Notifications.Emails;
 using Integrations.Notifications.Emails.Models;
 using Integrations.Notifications.Emails.Providers;
