@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Api.Controllers;
 using Core.Abstractions;
+using Core.Contracts.Abstractions;
 using HttpContextMoq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

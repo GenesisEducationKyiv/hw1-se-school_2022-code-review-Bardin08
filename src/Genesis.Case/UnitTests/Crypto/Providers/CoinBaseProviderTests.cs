@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
-using Core.Crypto.Abstractions;
-using Core.Crypto.Api;
-using Core.Crypto.Api.CoinBase;
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses.CoinBase;
-using Core.Crypto.Providers;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
+using Integrations.Crypto.ExternalApis.CoinBase;
+using Integrations.Crypto.Providers;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using GetExchangeRateResponse = Integrations.Crypto.Models.ExternalResponses.CoinBase.GetExchangeRateResponse;
 
 namespace UnitTests.Crypto.Providers;
 
@@ -27,7 +26,7 @@ public class CoinBaseProviderTests
         // Arrange
         var apiResponse = new GetExchangeRateResponse
         {
-            Data = new Core.Crypto.Models.Responses.CoinBase.Data {Rates = JToken.Parse("{\"UAH\":1.00}")}
+            Data = new Integrations.Crypto.Models.ExternalResponses.CoinBase.Data {Rates = JToken.Parse("{\"UAH\":1.00}")}
         };
         _coinBaseApiMock.Setup(x => x.GetExchangeRateAsync(It.IsAny<Currency>()))
             .ReturnsAsync(apiResponse);

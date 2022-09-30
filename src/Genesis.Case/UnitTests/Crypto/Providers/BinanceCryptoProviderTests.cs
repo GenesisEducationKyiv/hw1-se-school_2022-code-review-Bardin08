@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
-using Core.Crypto.Abstractions;
-using Core.Crypto.Api;
-using Core.Crypto.Api.Binance;
-using Core.Crypto.Models;
-using Core.Crypto.Models.Responses.Binance;
-using Core.Crypto.Providers;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
+using Integrations.Crypto.ExternalApis.Binance;
+using Integrations.Crypto.Providers;
 using Moq;
 using Xunit;
+using GetExchangeRateResponse = Integrations.Crypto.Models.ExternalResponses.Binance.GetExchangeRateResponse;
 
 namespace UnitTests.Crypto.Providers;
 

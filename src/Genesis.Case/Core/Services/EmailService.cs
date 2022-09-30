@@ -1,20 +1,27 @@
+using AutoMapper;
 using Core.Abstractions;
-using Core.Notifications.Emails.Models;
-using Core.Notifications.Emails.Providers.Abstractions;
+using Core.Contracts.Models;
+using Core.Contracts.Notifications.Abstractions.Emails;
+using Core.Contracts.Notifications.Models.Emails;
+using Core.Models.Notifications;
 
 namespace Core.Services;
 
-public class EmailService : IEmailService
+internal class EmailService : IEmailService
 {
     private readonly IGmailProvider _gmailProvider;
-        
-    public EmailService(IGmailProvider gmailProvider)
+    private readonly IMapper _mapper;
+
+    public EmailService(IGmailProvider gmailProvider, IMapper mapper)
     {
         _gmailProvider = gmailProvider;
+        _mapper = mapper;
     }
 
-    public async Task<List<SendEmailResult>> SendEmailsAsync(IEnumerable<EmailNotification> notifications)
+    public async Task<SendEmailNotificationsResponse> SendEmailsAsync(IEnumerable<EmailNotification> notificationDtos)
     {
-        return await _gmailProvider.SendEmailsAsync(notifications);
+        var notifications = notificationDtos.Select(_mapper.Map<EmailNotificationDto>);
+        var sendEmailsResults = await _gmailProvider.SendEmailsAsync(notifications);
+        return _mapper.Map<SendEmailNotificationsResponse>(sendEmailsResults);
     }
 }

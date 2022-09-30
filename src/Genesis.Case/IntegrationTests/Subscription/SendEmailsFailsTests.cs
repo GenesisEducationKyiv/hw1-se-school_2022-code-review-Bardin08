@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Api;
 using Api.Models.Responses;
-using Core.Notifications.Emails;
-using Core.Notifications.Emails.Models;
-using Core.Notifications.Emails.Providers.Abstractions;
+using Core.Contracts.Notifications.Models.Emails;
 using Data.Providers;
+using Integrations.Notifications.Emails;
 using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -55,7 +55,7 @@ public class SendEmailsFailsTests
                         It.IsAny<MimeMessage>(),
                         It.IsAny<CancellationToken>(),
                         It.IsAny<ITransferProgress>()))
-                    .ReturnsAsync(string.Empty);
+                    .Throws(new SmtpException("Integration test exception"));
 
                 smtpClientMock.Setup(x => x.DisconnectAsync(
                         It.IsAny<bool>(),
@@ -68,7 +68,7 @@ public class SendEmailsFailsTests
 
                 services.AddScoped(_ => smtpClientFactoryMock.Object);
 
-                var gmailProviderMock = new Mock<IGmailProvider>();
+                // var gmailProviderMock = new Mock<IGmailProvider>();
 
                 var subscriber = string.Format("integration-tests_{0}@gmail.com", _testUId);
                 var expectedResponse = new List<SendEmailResult>
@@ -85,11 +85,11 @@ public class SendEmailsFailsTests
                     }
                 };
 
-                gmailProviderMock.Setup(x => x.SendEmailsAsync(
-                        It.IsAny<List<EmailNotification>>()))
-                    .ReturnsAsync(expectedResponse);
-
-                services.AddScoped(_ => gmailProviderMock.Object);
+                // gmailProviderMock.Setup(x => x.SendEmailsAsync(
+                //         It.IsAny<IEnumerable<EmailNotificationDto>>()))
+                //     .ReturnsAsync(expectedResponse);
+// 
+                // services.AddScoped(_ => gmailProviderMock.Object);
             });
         }).CreateClient();
 

@@ -1,4 +1,5 @@
 using Core.Abstractions;
+using Core.Contracts.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;

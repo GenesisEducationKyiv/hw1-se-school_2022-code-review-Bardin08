@@ -1,6 +1,6 @@
-using Core.Abstractions;
-using Core.Crypto.Abstractions;
-using Core.Crypto.Models;
+using Core.Contracts.Abstractions;
+using Core.Contracts.Crypto.Abstractions;
+using Core.Contracts.Crypto.Models;
 
 namespace Core.Services;
 

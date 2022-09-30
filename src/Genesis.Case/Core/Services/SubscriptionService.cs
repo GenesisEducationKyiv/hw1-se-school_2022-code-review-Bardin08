@@ -1,5 +1,7 @@
 using Core.Abstractions;
-using Core.Notifications.Emails.Models;
+using Core.Contracts.Abstractions;
+using Core.Contracts.Models;
+using Core.Models.Notifications;
 using Data.Providers;
 
 namespace Core.Services;
@@ -36,12 +38,9 @@ public class SubscriptionService : ISubscriptionService
         return true;
     }
 
-    public async Task<SendEmailNotificationsResult> NotifyAsync()
+    public async Task<SendEmailNotificationsResponse> NotifyAsync()
     {
-        var result = new SendEmailNotificationsResult();
         var emailAddresses = (await _emailsStorage.ReadAllAsync()).ToList();
-        result.TotalSubscribers = emailAddresses.Count;
-
         var currentExchangeRate = await _exchangeRateService.GetBtcToUahExchangeRateAsync();
 
         var notifications = emailAddresses.Select(email => new EmailNotification()
@@ -51,15 +50,6 @@ public class SubscriptionService : ISubscriptionService
             Message = $"Hello, {email}!\n\nWe have a new BTC to UAH exchange rate for you! It is {currentExchangeRate} now!"
         }).ToList();
 
-        var results = await _emailService.SendEmailsAsync(notifications);
-
-        result.SuccessfullyNotified = results.Count(x => x.IsSuccessful);
-        result.Failed = results.Where(x => !x.IsSuccessful)
-            .Select(x => new FailedEmailNotificationSummary()
-            {
-                EmailAddress = x.Email!, Error = string.Join(", ", x.Errors ?? Array.Empty<string>())
-            }).ToList();
-
-        return result;
+        return await _emailService.SendEmailsAsync(notifications);
     }
 }
