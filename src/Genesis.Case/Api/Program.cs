@@ -1,6 +1,8 @@
 using System.Reflection;
 using Core;
 using Data;
+using Extensions.Logger;
+using Integration.RabbitMq;
 using Integrations.Crypto;
 using Integrations.Notifications;
 using Microsoft.OpenApi.Models;
@@ -19,6 +21,9 @@ namespace Api
 
             builder.Services.AddCoreLogic(builder.Configuration);
             builder.Services.AddDataLayer(builder.Configuration);
+            
+            builder.Services.AddRabbitMq(builder.Configuration);
+            builder.Services.AddCustomLogger();
             
             builder.Services.AddNotificationsIntegration(builder.Configuration);
             builder.Services.AddCryptoIntegration(builder.Configuration);
