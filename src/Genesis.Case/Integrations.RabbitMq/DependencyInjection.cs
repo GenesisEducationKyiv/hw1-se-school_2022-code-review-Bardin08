@@ -1,10 +1,10 @@
-using Integration.RabbitMq.Abstractions;
-using Integration.RabbitMq.Models;
-using Integration.RabbitMq.Services;
+using Integrations.RabbitMq.Abstractions;
+using Integrations.RabbitMq.Models;
+using Integrations.RabbitMq.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Integration.RabbitMq;
+namespace Integrations.RabbitMq;
 
 public static class DependencyInjection
 {
@@ -14,6 +14,6 @@ public static class DependencyInjection
         configuration.Bind("RabbitMq", rabbitConfig);
         services.AddSingleton(rabbitConfig);
 
-        services.AddSingleton<IProducer, Producer>();
+        services.AddSingleton<IAmqpProducer, AmqpProducer>();
     }
 }

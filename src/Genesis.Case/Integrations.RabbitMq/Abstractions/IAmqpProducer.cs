@@ -1,8 +1,8 @@
-using Integration.RabbitMq.Models;
+using Integrations.RabbitMq.Models;
 
-namespace Integration.RabbitMq.Abstractions;
+namespace Integrations.RabbitMq.Abstractions;
 
-public interface IProducer
+public interface IAmqpProducer
 {
     void CreateQueue(QueueModel queueDescriptor);
     void SendMessages(IEnumerable<MessageModel> messages);

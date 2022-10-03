@@ -1,6 +1,6 @@
 using System.Text;
-using Integration.RabbitMq.Abstractions;
-using Integration.RabbitMq.Models;
+using Integrations.RabbitMq.Abstractions;
+using Integrations.RabbitMq.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -8,16 +8,16 @@ namespace Extensions.Logger;
 
 public class FusionLoggerFactory : ILoggerFactory
 {
-    private readonly IProducer _producer;
+    private readonly IAmqpProducer _amqpProducer;
 
-    public FusionLoggerFactory(IProducer producer)
+    public FusionLoggerFactory(IAmqpProducer amqpProducer)
     {
-        _producer = producer;
+        _amqpProducer = amqpProducer;
     }
 
     public ILogger CreateLogger(string categoryName)
     {
-        return new FusionLogger(_producer);
+        return new FusionLogger(_amqpProducer);
     }
 
     public void AddProvider(ILoggerProvider provider)
@@ -32,17 +32,17 @@ public class FusionLoggerFactory : ILoggerFactory
 public class FusionLogger : ILogger
 {
     private const string CategoryName = "exchange_api_logs";
-    private readonly IProducer _producer;
+    private readonly IAmqpProducer _amqpProducer;
 
-    public FusionLogger(IProducer producer)
+    public FusionLogger(IAmqpProducer amqpProducer)
     {
-        _producer = producer;
+        _amqpProducer = amqpProducer;
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
-        _producer.CreateQueue(new QueueModel
+        _amqpProducer.CreateQueue(new QueueModel
         {
             QueueName = CategoryName
         });
@@ -58,7 +58,7 @@ public class FusionLogger : ILogger
             Data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message))
         };
         
-        _producer.SendMessages(new[] {amqpMessage});
+        _amqpProducer.SendMessages(new[] {amqpMessage});
     }
 
     public bool IsEnabled(LogLevel logLevel)

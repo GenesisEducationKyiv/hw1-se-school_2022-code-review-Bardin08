@@ -1,14 +1,14 @@
-using Integration.RabbitMq.Abstractions;
-using Integration.RabbitMq.Models;
+using Integrations.RabbitMq.Abstractions;
+using Integrations.RabbitMq.Models;
 using RabbitMQ.Client;
 
-namespace Integration.RabbitMq.Services;
+namespace Integrations.RabbitMq.Services;
 
-public class Producer : IProducer
+public class AmqpProducer : IAmqpProducer
 {
     private readonly RabbitConfiguration _rabbitConfiguration;
     
-    public Producer(RabbitConfiguration rabbitConfiguration)
+    public AmqpProducer(RabbitConfiguration rabbitConfiguration)
     {
         _rabbitConfiguration = rabbitConfiguration;
     }

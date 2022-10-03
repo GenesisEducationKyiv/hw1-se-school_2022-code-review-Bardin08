@@ -2,9 +2,9 @@ using System.Reflection;
 using Core;
 using Data;
 using Extensions.Logger;
-using Integration.RabbitMq;
 using Integrations.Crypto;
 using Integrations.Notifications;
+using Integrations.RabbitMq;
 using Microsoft.OpenApi.Models;
 
 namespace Api

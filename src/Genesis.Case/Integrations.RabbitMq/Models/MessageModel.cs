@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace Integration.RabbitMq.Models;
+namespace Integrations.RabbitMq.Models;
 
 public class MessageModel
 {

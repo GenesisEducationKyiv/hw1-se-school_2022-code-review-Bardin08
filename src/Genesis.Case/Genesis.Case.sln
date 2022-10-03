@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrations.Crypto", "Inte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "amqp", "amqp", "{97D814BD-B17E-4A90-933E-A966E09A9728}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.RabbitMq", "Integration.RabbitMq\Integration.RabbitMq.csproj", "{11B94AC9-3224-4BF1-8F8E-F117A9570EDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrations.RabbitMq", "Integrations.RabbitMq\Integrations.RabbitMq.csproj", "{11B94AC9-3224-4BF1-8F8E-F117A9570EDB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "logger", "logger", "{8AC447E4-4635-4744-9B59-3053EC1006DB}"
 EndProject

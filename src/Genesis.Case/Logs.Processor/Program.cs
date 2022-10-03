@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Logs.Processor;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -45,9 +46,12 @@ channel.BasicConsume(queue: "exchange_api_logs",
 Console.WriteLine(" Press [enter] to exit.");
 Console.ReadLine();
 
-public class LogEventAsMessage
+namespace Logs.Processor
 {
-    public LogLevel Level { get; set; }
-    public int EventId { get; set; }
-    public string Message { get; set; }
+    public class LogEventAsMessage
+    {
+        public LogLevel Level { get; set; }
+        public int EventId { get; set; }
+        public string Message { get; set; }
+    }
 }
