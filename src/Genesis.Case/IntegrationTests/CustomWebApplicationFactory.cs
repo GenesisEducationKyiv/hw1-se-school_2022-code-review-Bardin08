@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Providers;
+using Integration.RabbitMq.Abstractions;
+using Integration.RabbitMq.Models;
+using Integration.RabbitMq.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace IntegrationTests;
 
@@ -25,6 +30,15 @@ public class CustomWebApplicationFactory<TStartup>
                 new JsonEmailsStorage(cfg => cfg.Filename = $"emails-{TestUId}.json"));
 
             s.Replace(emailStorageDescriptor);
+
+            var amqpProviderMock = new Mock<IAmqpProducer>();
+
+            amqpProviderMock.SetupSequence(x => x.CreateQueue(It.IsAny<QueueModel>())).Pass();
+            amqpProviderMock.SetupSequence(x => x.SendMessages(It.IsAny<IEnumerable<MessageModel>>())).Pass();
+
+            var amqpProducerDescriptor = new ServiceDescriptor(typeof(IAmqpProducer), amqpProviderMock.Object);
+
+            s.Replace(amqpProducerDescriptor);
 
             var serviceProvider = s.BuildServiceProvider();
 
