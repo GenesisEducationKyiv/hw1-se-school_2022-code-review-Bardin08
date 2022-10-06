@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Api;
 using Api.Models.Responses;
-using Core.Contracts.Notifications.Models.Emails;
 using Data.Providers;
 using Integrations.Notifications.Emails;
 using MailKit;
@@ -68,28 +67,7 @@ public class SendEmailsFailsTests
 
                 services.AddScoped(_ => smtpClientFactoryMock.Object);
 
-                // var gmailProviderMock = new Mock<IGmailProvider>();
-
                 var subscriber = string.Format("integration-tests_{0}@gmail.com", _testUId);
-                var expectedResponse = new List<SendEmailResult>
-                {
-                    new()
-                    {
-                        Email = subscriber,
-                        Errors = new[]
-                        {
-                            $"A letter to {subscriber} wasn't sent. SMTP server not respond"
-                        },
-                        IsSuccessful = false,
-                        Timestamp = DateTimeOffset.UtcNow
-                    }
-                };
-
-                // gmailProviderMock.Setup(x => x.SendEmailsAsync(
-                //         It.IsAny<IEnumerable<EmailNotificationDto>>()))
-                //     .ReturnsAsync(expectedResponse);
-// 
-                // services.AddScoped(_ => gmailProviderMock.Object);
             });
         }).CreateClient();
 

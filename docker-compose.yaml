@@ -1,0 +1,37 @@
+version: '3.9'
+
+
+networks:
+  fusion-exchange: {}
+
+
+services:
+
+  rabbitmq:
+    hostname: rabbitmq
+    image: 'bitnami/rabbitmq:latest'
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "25672:25672"
+      - "15671:15671"
+      - "15672:15672"
+    networks:
+      - fusion-exchange
+
+  exchange-api:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CRYPTO_CURRENCY_PROVIDER=coinbase
+    ports:
+      - "8080:80"
+    networks:
+      - fusion-exchange

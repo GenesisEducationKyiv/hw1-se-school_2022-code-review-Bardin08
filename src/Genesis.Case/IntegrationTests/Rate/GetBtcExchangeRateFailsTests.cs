@@ -49,7 +49,7 @@ public class GetBtcExchangeRateFailsTests
                 services.AddHttpClient<IBinanceApi, BinanceApi>(client =>
                 {
                     client.BaseAddress = new Uri("https://api.binance.com/api/v3/");
-                }).ConfigurePrimaryHttpMessageHandler(() => httpMessageHandlerMock.Object);;
+                }).ConfigurePrimaryHttpMessageHandler(() => httpMessageHandlerMock.Object);
             });
         }).CreateClient();
     }
