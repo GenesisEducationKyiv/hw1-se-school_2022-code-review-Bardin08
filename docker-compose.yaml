@@ -9,6 +9,7 @@ services:
 
   rabbitmq:
     hostname: rabbitmq
+    container_name: rabbitmq
     image: 'bitnami/rabbitmq:latest'
     ports:
       - "4369:4369"
@@ -23,7 +24,8 @@ services:
   exchange-api:
     restart: always
     build:
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: FusionExchangeApi.Dockerfile
     depends_on:
       - rabbitmq
     links:
@@ -33,5 +35,31 @@ services:
       - CRYPTO_CURRENCY_PROVIDER=coinbase
     ports:
       - "8080:80"
+    networks:
+      - fusion-exchange
+
+  customers-api:
+    restart: always
+    build:
+      context: .
+      dockerfile: CustomersApi.Dockerfile
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    ports:
+      - "8081:80"
+    networks:
+      - fusion-exchange
+    
+  customers-processor:
+    restart: always
+    build:
+      context: .
+      dockerfile: CustomersQueueProcessor.Dockerfile
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
     networks:
       - fusion-exchange

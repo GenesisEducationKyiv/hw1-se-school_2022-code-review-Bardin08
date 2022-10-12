@@ -1,6 +1,5 @@
 using Api.Models.Responses;
 using AutoMapper;
-using Core.Abstractions;
 using Core.Contracts.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 

@@ -8,6 +8,8 @@ using Core.Contracts.Models;
 using Core.Models.Notifications;
 using Core.Services;
 using Data.Providers;
+using Integrations.RabbitMq.Abstractions;
+using Integrations.RabbitMq.Models;
 using Moq;
 using Xunit;
 
@@ -19,13 +21,15 @@ public class SubscriptionServiceTests
     private readonly Mock<IEmailService> _emailServiceMock = new();
     private readonly Mock<IExchangeRateService> _exchangeRateServiceMock = new();
     private readonly Mock<IJsonEmailsStorage> _jsonEmailsStorageMock = new();
+    private readonly Mock<IAmqpProducer> _amqpProducerMock = new();
 
     public SubscriptionServiceTests()
     {
         _sut = new SubscriptionService(
             _emailServiceMock.Object,
             _exchangeRateServiceMock.Object,
-            _jsonEmailsStorageMock.Object);
+            _jsonEmailsStorageMock.Object,
+            _amqpProducerMock.Object);
     }
 
     [Fact]
@@ -37,6 +41,8 @@ public class SubscriptionServiceTests
             .ReturnsAsync(Array.Empty<string>());
         _jsonEmailsStorageMock.Setup(x => x.CreateAsync(It.IsAny<string>()))
             .ReturnsAsync(email);
+        _amqpProducerMock.SetupSequence(x => x.CreateQueue(It.IsAny<QueueModel>())).Pass();
+        _amqpProducerMock.SetupSequence(x => x.SendMessages(It.IsAny<IEnumerable<MessageModel>>())).Pass();
 
         // Act
         var result = await _sut.SubscribeAsync(email);

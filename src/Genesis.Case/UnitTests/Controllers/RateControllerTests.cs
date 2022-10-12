@@ -29,7 +29,7 @@ public class RateControllerTests
     {
         // Arrange
         _exchangeRateServiceMock.Setup(x => x.GetBtcToUahExchangeRateAsync())
-            .ReturnsAsync(decimal.Parse("1.0"));
+            .ReturnsAsync(decimal.One);
 
         // Act
         var result = await _sut.GetBtcExchangeRate();
