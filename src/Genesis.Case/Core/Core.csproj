@@ -21,6 +21,7 @@
       <ProjectReference Include="..\Core.Contracts\Core.Contracts.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
       <ProjectReference Include="..\Integrations.Crypto\Integrations.Crypto.csproj" />
+      <ProjectReference Include="..\Integrations.RabbitMq\Integrations.RabbitMq.csproj" />
     </ItemGroup>
 
 </Project>

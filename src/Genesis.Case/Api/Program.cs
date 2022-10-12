@@ -1,4 +1,5 @@
 using System.Reflection;
+using Api.Consumers;
 using Core;
 using Data;
 using Extensions.Logger;
@@ -43,6 +44,8 @@ namespace Api
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
             });
+
+            builder.Services.AddHostedService<CustomersQueuesConsumer>();
 
             var app = builder.Build();
 
